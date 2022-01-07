@@ -1,15 +1,18 @@
 buildscript {
     repositories {
+        maven { url 'https://plugins.gradle.org/m2/'}
         maven { url 'https://repo.grails.org/grails/core' }
     }
     dependencies {
-        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.6.1'
-        classpath 'org.asciidoctor:asciidoctorj-epub3:1.5.1'
-        classpath 'org.asciidoctor:asciidoctorj-pdf:1.6.0'
+        classpath 'org.asciidoctor:asciidoctor-gradle-jvm:3.1.0'
+        classpath 'org.asciidoctor:asciidoctor-gradle-jvm-pdf:3.1.0'
+        classpath 'org.asciidoctor:asciidoctor-gradle-jvm-epub:3.1.0'
     }
 }
 
-apply plugin: 'org.asciidoctor.convert'
+apply plugin: 'org.asciidoctor.jvm.convert'
+apply plugin: 'org.asciidoctor.jvm.pdf'
+apply plugin: 'org.asciidoctor.jvm.epub'
 
 def asciidoctorAttributes = [
         copyright           : 'Apache License, Version 2.0',
@@ -34,12 +37,11 @@ def asciidoctorAttributes = [
         elasticsearchVersion: project.elasticsearchVersion
 ]
 
-import org.asciidoctor.gradle.AsciidoctorTask
+import org.asciidoctor.gradle.jvm.AsciidoctorTask
 
-tasks.withType(AsciidoctorTask) {
+asciidoctor {
     attributes asciidoctorAttributes
     outputDir new File(buildDir, 'docs/manual')
-    separateOutputDirs = false
     sourceDir = file('src/docs')
     sources {
         include 'index.adoc'
@@ -47,11 +49,19 @@ tasks.withType(AsciidoctorTask) {
     }
 }
 
-task asciidoc(type: AsciidoctorTask, description: 'Generates single-page HTML and PDF') {
-    backends 'html5', 'pdf'
+tasks.withType(AsciidoctorTask) {
+    configure {
+        baseDirFollowsSourceDir()
+        outputOptions {
+            separateOutputDirs = false
+            backends = ['html5', 'pdf']
+        }
+    }
 }
 
-task docs(dependsOn: [asciidoc]) {
+tasks.register("docs") {
+    dependsOn = ["asciidoctor"]
+    group = "documentation"
     doLast {
         File dir = new File(buildDir, 'docs/manual')
         ['pdf'].each { String ext ->

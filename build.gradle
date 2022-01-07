@@ -1,11 +1,12 @@
 buildscript {
     repositories {
-        mavenLocal()
         maven { url "https://repo.grails.org/grails/core" }
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsGradlePluginVersion"
-        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.6.1'
+        classpath 'org.asciidoctor:asciidoctor-gradle-jvm:3.1.0'
+        classpath 'org.asciidoctor:asciidoctor-gradle-jvm-pdf:3.1.0'
+        classpath 'org.asciidoctor:asciidoctor-gradle-jvm-epub:3.1.0'
         classpath 'org.ajoberstar:gradle-git:1.7.2'
         classpath "org.grails.plugins:hibernate5:${gormHibernateVersion-".RELEASE"}"
         classpath "de.undercouch:gradle-download-task:4.1.2"
@@ -26,15 +27,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-    mavenCentral()
     maven { url "https://repo.grails.org/grails/core" }
-}
-
-configurations {
-    developmentOnly
-    runtimeClasspath {
-        extendsFrom developmentOnly
-    }
 }
 
 dependencyManagement {
@@ -57,8 +50,7 @@ groovydoc {
 sourcesJar {
     exclude "test/**"
     exclude "test/**/**"
-
-    classifier = 'sources'
+    archiveClassifier.set('sources')
 }
 
 dependencies {
