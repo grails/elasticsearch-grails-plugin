@@ -1,4 +1,4 @@
-== Elasticsearch Grails plugin image:https://travis-ci.org/puneetbehl/elasticsearch-grails-plugin.svg?branch=master["Build Status", link="https://travis-ci.org/puneetbehl/elasticsearch-grails-plugin"]
+== Elasticsearch Grails plugin [![Java CI](https://github.com/grails-plugins/elasticsearch-grails-plugin/actions/workflows/gradle.yml/badge.svg)](https://github.com/grails-plugins/elasticsearch-grails-plugin/actions/workflows/gradle.yml)
 
 https://grails-plugins.github.io/elasticsearch-grails-plugin/[documentation about the plugin]
 
