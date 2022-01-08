@@ -52,7 +52,7 @@ def search(String query, Map params)
 * `params` - A list of additional parameters to customize the searching process
 ** `from` and `size` - From (hit) and the size (number of hits) to return.
 ** `sort` - Sort based on different fields including ElasticSearch's internal ones (like `_score`)
-** `highlighter` - A `Closure` containing the xref:/manual/index.adoc#_highlighting[highlighting] settings.
+** `highlighter` - A `Closure` containing the xref:/index.adoc#_highlighting[highlighting] settings.
 
 ##### Returned value
 
