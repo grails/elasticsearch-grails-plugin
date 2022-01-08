@@ -1,5 +1,5 @@
-[[countHits]]
-=== countHits
+[[countHitsMethod]]
+=== countHits()
 
 #### Purpose
 

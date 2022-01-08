@@ -44,7 +44,7 @@ grails.project.dependency.resolution = {
 }
 ----
 
-[[INFO]]
+[INFO]
 ====
 * Above problem was reported with plugin version 0.0.4.5 and Grails 2.5.5.
 ====

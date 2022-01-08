@@ -1,5 +1,5 @@
-[[index]]
-=== index
+[[indexMethod]]
+=== index()
 
 #### Purpose
 

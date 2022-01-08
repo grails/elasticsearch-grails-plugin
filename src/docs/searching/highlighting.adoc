@@ -1,7 +1,7 @@
-[[highlighting]]
+[[_highlighting]]
 === Highlighting
 
-The search method support highlighting: automatic wrapping of the matching terms in the search results with
+The search method support highlighting, i.e. automatic wrapping of the matching terms in the search results with
 HTML/XML/Whatever tags.
 
 You can activate this with a `Closure` containing the highlight settings in the search method `highlight` parameter.

@@ -76,10 +76,10 @@ def search(QueryBuilder query, filter = null, Map params = [:])
 ** `sort` - Sort based on different fields including ElasticSearch's internal ones (like `_score`)
 *** As a `String`, sort by the field with this name (e.g. `sort: 'name'` means 'sort by `name`')
 *** Can also be a `SortBuilder`
-** `order` - Sort order ("ASC" or "DESC", case insensitive). Default: "ASC"
+** `order` - Sort order ("ASC" or "DESC", case-insensitive). Default: "ASC"
 ** `indices` - Limit the search only to the specified indices (may be a `String`, or `Collection` of `String`)
 ** `types` - Limit the search only to the specified types (domains) (may be a `String`, or `Collection` of `String`).
-** `highlight` - A `Closure` containing the <<highlighting, highlighting>> settings.
+** `highlight` - A `Closure` containing the xref:/manual/index.adoc#_highlighting[highlighting] settings.
 
 ##### Returned value
 

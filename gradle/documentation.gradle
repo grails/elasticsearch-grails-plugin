@@ -4,9 +4,9 @@ buildscript {
         maven { url 'https://repo.grails.org/grails/core' }
     }
     dependencies {
-        classpath 'org.asciidoctor:asciidoctor-gradle-jvm:3.1.0'
-        classpath 'org.asciidoctor:asciidoctor-gradle-jvm-pdf:3.1.0'
-        classpath 'org.asciidoctor:asciidoctor-gradle-jvm-epub:3.1.0'
+        classpath 'org.asciidoctor:asciidoctor-gradle-jvm:3.3.2'
+        classpath 'org.asciidoctor:asciidoctor-gradle-jvm-pdf:3.3.2'
+        classpath 'org.asciidoctor:asciidoctor-gradle-jvm-epub:3.3.2'
     }
 }
 
@@ -26,6 +26,7 @@ def asciidoctorAttributes = [
         lang                : 'en',
         linkattrs           : true,
         numbered            : '',
+        sectlinks           : true,
         producer            : 'Asciidoctor',
         revnumber           : project.version,
         setanchors          : true,
@@ -51,7 +52,7 @@ asciidoctor {
 
 tasks.withType(AsciidoctorTask) {
     configure {
-        baseDirFollowsSourceDir()
+        baseDirIsProjectDir()
         outputOptions {
             separateOutputDirs = false
             backends = ['html5', 'pdf']

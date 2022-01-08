@@ -144,7 +144,7 @@ environments:
             client:
                 mode: transport
 ----
-[[INFO]]
+[INFO]
 ====
 For *Grails 4* and *elasticsearch plugin > 3.0.0* you need to configure the REST port 9200 instead of 9300. 
 ====
@@ -213,9 +213,9 @@ If no host is defined, `localhost:9300` will be used by the transport client.
 
 ==== Using node or dataNode during development
 
-[[INFO]]
+[INFO]
 ====
-The node.client setting has been removed. A node with such a setting set will not start up. Instead, each node role needs to be set separately using the existing node.master, node.data and node.ingest supported static settings.
+INFO: The node.client setting has been removed. A node with such a setting set will not start up. Instead, each node role needs to be set separately using the existing node.master, node.data and node.ingest supported static settings.
 ====
 
 If you configure your dev environment to use `node` or `dataNode` you might see the following exception:

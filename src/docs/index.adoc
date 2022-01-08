@@ -1,24 +1,27 @@
+:includesdir: src/docs
+:sectanchors:
+
 = Elasticsearch Plugin - Reference Documentation
 Puneet Behl
 
-:elasticsearch: http://www.elasticsearch.org
+:elasticsearch: https://www.elasticsearch.org
 
-include::introduction.adoc[]
+include::{includesdir}/introduction.adoc[]
 
-include::configuration.adoc[]
+include::{includesdir}/configuration.adoc[]
 
-include::quickStart.adoc[]
+include::{includesdir}/quickStart.adoc[leveloffset=1]
 
-include::mapping.adoc[]
+include::{includesdir}/mapping.adoc[]
 
-include::indexing.adoc[]
+include::{includesdir}/indexing.adoc[]
 
-include::searching.adoc[]
+include::{includesdir}/searching.adoc[]
 
-include::admin.adoc[]
+include::{includesdir}/admin.adoc[]
 
-include::lowLevelAPI.adoc[]
+include::{includesdir}/lowLevelAPI.adoc[]
 
-include::example.adoc[]
+include::{includesdir}/example.adoc[]
 
-include::faq.adoc[]
+include::{includesdir}/faq.adoc[]

@@ -1,9 +1,10 @@
+:includesdir: src/docs/ref
 = Quick Reference
 :toc: right
 :toc-title: Quick Reference
 
-include::dynamicDomainMethods.adoc[]
+include::{includesdir}/dynamicDomainMethods.adoc[]
 
-include::elasticSearchAdminService.adoc[]
+include::{includesdir}/elasticSearchAdminService.adoc[]
 
-include::elasticSearchService.adoc[]
+include::{includesdir}/elasticSearchService.adoc[]
