@@ -114,6 +114,10 @@ class SearchableClassMappingConfigurator implements ElasticSearchConfigAware {
                 .findAll { it.isRoot() }
                 .collect { it.domainClass.fullName.toLowerCase() } as Set<String>
 
+        Set<String> indices = mappings
+            .findAll { it.isRoot() }
+            .collect { it.indexName } as Set<String>
+
         //Install the mappings for each index all together
         indices.each { String indexName ->
 
