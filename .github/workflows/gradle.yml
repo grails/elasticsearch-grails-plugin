@@ -53,15 +53,13 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: '**/build/test-results/test/TEST-*.xml'
-      - name: Publish to repo.grails.org
-        id: publish
-        uses: gradle/gradle-build-action@v2
-        if: steps.build.outcome == 'success' && github.event_name == 'push' && matrix.java == '8'
-        env:
-          ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
-          ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
-        with:
-          arguments: publish
+      - name: Publish to nexus.ala.org.au
+        uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+          with:
+            arguments: publish
+          env:
+            TRAVIS_DEPLOY_USERNAME: ${{secrets.DEPLOY_USERNAME}}
+            TRAVIS_DEPLOY_PASSWORD: ${{secrets.DEPLOY_PASSWORD}}
       - name: Generate Documentation
         id: docs
         uses: gradle/gradle-build-action@v2
