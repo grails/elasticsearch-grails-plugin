@@ -20,7 +20,7 @@ group "org.grails.plugins"
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: "org.grails.grails-plugin"
-apply plugin: "org.grails.internal.grails-plugin-publish"
+//apply plugin: "org.grails.internal.grails-plugin-publish"
 apply plugin: "org.grails.grails-gsp"
 apply plugin: "de.undercouch.download"
 
@@ -128,20 +128,20 @@ apply from: "gradle/documentation.gradle"
 
 apply from: "gradle/publish.gradle"
 
-grailsPublish {
-    githubSlug = 'grails-plugins/elasticsearch-grails-plugin'
-    license {
-        name = 'Apache-2.0'
-    }
-    title = "Elasticsearch Grails Plugin"
-    //rep = "grails-plugins"
-    desc = "An Elasticsearch plugin for Grails"
-    developers = [
-            noam: 'Noam Y. Tenne',
-            macrcos: 'Marcos Carceles',
-            puneet: 'Puneet Behl',
-            james: 'James Kleeh',
-            cgoit: 'Carsten Götzinger'
-    ]
-}
+//grailsPublish {
+//    githubSlug = 'grails-plugins/elasticsearch-grails-plugin'
+//    license {
+//        name = 'Apache-2.0'
+//    }
+//    title = "Elasticsearch Grails Plugin"
+//    //rep = "grails-plugins"
+//    desc = "An Elasticsearch plugin for Grails"
+//    developers = [
+//            noam: 'Noam Y. Tenne',
+//            macrcos: 'Marcos Carceles',
+//            puneet: 'Puneet Behl',
+//            james: 'James Kleeh',
+//            cgoit: 'Carsten Götzinger'
+//    ]
+//}
 
