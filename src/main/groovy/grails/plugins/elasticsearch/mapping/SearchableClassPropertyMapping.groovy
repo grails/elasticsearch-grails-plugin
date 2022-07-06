@@ -28,7 +28,7 @@ class SearchableClassPropertyMapping {
 
     private static final Set<String> SEARCHABLE_SPECIAL_MAPPING_OPTIONS =
             ['component', 'converter', 'reference', 'excludeFromAll', 'maxDepth', 'multi_field', 'join', 'geoPoint',
-             'alias', 'dynamic', 'attachment', 'analyzed'] as Set<String>
+             'alias', 'dynamic', 'attachment'] as Set<String>
 
     /** Grails attributes of this property */
     private DomainProperty grailsProperty
@@ -207,7 +207,7 @@ class SearchableClassPropertyMapping {
      * @return true if field is analyzed. NOTE it doesn't have to be stored.
      */
     boolean isAnalyzed() {
-        specialMappingAttributes.get('analyzed') != null ? specialMappingAttributes.get('analyzed') : true
+        mappingAttributes.get('index') != null ? mappingAttributes.get('index') == 'true' : true
     }
 
     /**
