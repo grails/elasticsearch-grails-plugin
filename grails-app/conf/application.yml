@@ -32,6 +32,9 @@ spring:
                 - grails-app/views/**
                 - grails-app/i18n/**
                 - grails-app/conf/**
+    autoconfigure:
+        exclude:
+            - org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
 management:
     endpoints:
         enabled-by-default: false
