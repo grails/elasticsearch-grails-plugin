@@ -464,8 +464,11 @@ A string indicating which ElasticSearch index should be used.  If not present, w
 
 [NOTE]
 ====
-From Elasticsearch 5.0 on only selected settings like for instance index.codec can be set on the node level. All other settings must be set on each individual index. To set default values on every index, index templates should be used instead. So, unset this value if you are using Elasticsearch v5.0 or above.
+From Elasticsearch 5.0 on only selected settings like for instance index.codec can be set on the node level. All other settings must be set on each individual index. To set default values on every index, index templates should be used instead. So, unset this value if you are using Elasticsearch v5.0 or above. As a workaround elasticSearch.index.prefix setting can be used.
 ====
+
+==== `elasticSearch.index.prefix`
+The setting provides possibility to add preffix to all index and aleas names of application. Can be usefull in setup of many applications with one ES instance. Mostly, that is a replacement of elasticSearch.index.name for ES 5.0 +
 
 ==== `elasticSearch.index.compound_format`
 

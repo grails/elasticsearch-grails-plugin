@@ -90,6 +90,11 @@ class SearchableClassMapping implements ElasticSearchConfigAware {
             name = domainClass.defaultPropertyName
         }
 
+        String prefix = (esConfig?.get('index') as ConfigObject)?.prefix?:null
+        if (prefix){
+          name = prefix + "."+name
+        }
+
         // index name must be lowercase (org.elasticsearch.indices.InvalidIndexNameException)
         name.toLowerCase()
     }

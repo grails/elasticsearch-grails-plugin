@@ -33,6 +33,7 @@ elasticSearch:
         hosts:
           - {host: localhost, port: 9300}
     cluster.name: <ENTER CLUSTER NAME HERE>
+    prefix: <ENTER PREFIX HERE>
 ----
 
 In order debug Elasticsearch plugin, add `logger("grails.plugins.elasticsearch", DEBUG, ['STDOUT'], false)` in `logback.groovy` file as following:
