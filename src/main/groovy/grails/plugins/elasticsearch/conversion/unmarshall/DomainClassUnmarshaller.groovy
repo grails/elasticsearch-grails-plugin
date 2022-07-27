@@ -31,12 +31,12 @@ import java.time.OffsetTime
 import java.time.temporal.Temporal
 import java.time.format.DateTimeFormatter as JDateTimeFormatter
 import org.codehaus.groovy.runtime.DefaultGroovyMethods
-import org.elasticsearch.action.get.GetRequest
-import org.elasticsearch.action.get.GetResponse
-import org.elasticsearch.client.RequestOptions
-import org.elasticsearch.client.RestHighLevelClient
-import org.elasticsearch.search.SearchHit
-import org.elasticsearch.search.SearchHits
+import org.opensearch.action.get.GetRequest
+import org.opensearch.action.get.GetResponse
+import org.opensearch.client.RequestOptions
+import org.opensearch.client.RestHighLevelClient
+import org.opensearch.search.SearchHit
+import org.opensearch.search.SearchHits
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat

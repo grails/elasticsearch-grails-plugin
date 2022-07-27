@@ -7,10 +7,10 @@ import grails.plugins.elasticsearch.ElasticSearchSpec
 import grails.plugins.elasticsearch.exception.MappingException
 import grails.testing.mixin.integration.Integration
 import org.apache.lucene.search.TotalHits
-import org.elasticsearch.common.bytes.BytesArray
-import org.elasticsearch.common.text.Text
-import org.elasticsearch.search.SearchHit
-import org.elasticsearch.search.SearchHits
+import org.opensearch.common.bytes.BytesArray
+import org.opensearch.common.text.Text
+import org.opensearch.search.SearchHit
+import org.opensearch.search.SearchHits
 import org.slf4j.Logger
 import spock.lang.Specification
 import test.GeoPoint

@@ -21,10 +21,10 @@ import grails.plugins.elasticsearch.ElasticSearchAdminService
 import grails.plugins.elasticsearch.ElasticSearchContextHolder
 import grails.plugins.elasticsearch.util.ElasticSearchConfigAware
 import groovy.transform.CompileStatic
-import org.elasticsearch.ElasticsearchStatusException
-import org.elasticsearch.cluster.health.ClusterHealthStatus
-import org.elasticsearch.indices.InvalidIndexTemplateException
-import org.elasticsearch.transport.RemoteTransportException
+import org.opensearch.OpenSearchStatusException
+import org.opensearch.cluster.health.ClusterHealthStatus
+import org.opensearch.indices.InvalidIndexTemplateException
+import org.opensearch.transport.RemoteTransportException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -148,7 +148,7 @@ class SearchableClassMappingConfigurator implements ElasticSearchConfigAware {
                     } catch (InvalidIndexTemplateException e) {
                         LOG.warn("Could not install mapping ${scm.indexName}/${scm.elasticTypeName} due to ${e.message}, migrations needed")
                         mappingConflicts << new MappingConflict(scm: scm, exception: e)
-                    } catch (ElasticsearchStatusException e) {
+                    } catch (OpenSearchStatusException e) {
                         LOG.warn("Could not install mapping ${scm.indexName}/${scm.elasticTypeName} due to ${e.message}, migrations needed")
                         mappingConflicts << new MappingConflict(scm: scm, exception: e)
                     } catch (IOException e) {
