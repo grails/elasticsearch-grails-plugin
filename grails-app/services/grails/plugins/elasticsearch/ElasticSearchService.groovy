@@ -22,36 +22,36 @@ import grails.plugins.elasticsearch.index.IndexRequestQueue
 import grails.plugins.elasticsearch.mapping.SearchableClassMapping
 import grails.plugins.elasticsearch.util.GXContentBuilder
 import groovy.util.logging.Slf4j
-import org.elasticsearch.action.search.SearchRequest
-import org.elasticsearch.action.search.SearchResponse
-import org.elasticsearch.client.RequestOptions
-import org.elasticsearch.client.RestHighLevelClient
-import org.elasticsearch.common.settings.Settings
-import org.elasticsearch.common.xcontent.DeprecationHandler
-import org.elasticsearch.common.xcontent.NamedXContentRegistry
-import org.elasticsearch.common.xcontent.XContent
-import org.elasticsearch.common.xcontent.XContentLocation
-import org.elasticsearch.common.xcontent.XContentParser
-import org.elasticsearch.common.xcontent.json.JsonXContent
-import org.elasticsearch.index.query.Operator
-import org.elasticsearch.index.query.QueryBuilder
-import org.elasticsearch.index.query.QueryStringQueryBuilder
-import org.elasticsearch.search.SearchHit
-import org.elasticsearch.search.SearchHits
-import org.elasticsearch.search.SearchModule
-import org.elasticsearch.search.aggregations.Aggregation
-import org.elasticsearch.search.aggregations.Aggregations
-import org.elasticsearch.search.aggregations.AggregatorFactories
-import org.elasticsearch.search.aggregations.BaseAggregationBuilder
-import org.elasticsearch.search.builder.SearchSourceBuilder
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder
-import org.elasticsearch.search.sort.SortBuilder
-import org.elasticsearch.search.sort.SortOrder
+import org.opensearch.action.search.SearchRequest
+import org.opensearch.action.search.SearchResponse
+import org.opensearch.client.RequestOptions
+import org.opensearch.client.RestHighLevelClient
+import org.opensearch.common.settings.Settings
+import org.opensearch.common.xcontent.DeprecationHandler
+import org.opensearch.common.xcontent.NamedXContentRegistry
+import org.opensearch.common.xcontent.XContent
+import org.opensearch.common.xcontent.XContentLocation
+import org.opensearch.common.xcontent.XContentParser
+import org.opensearch.common.xcontent.json.JsonXContent
+import org.opensearch.index.query.Operator
+import org.opensearch.index.query.QueryBuilder
+import org.opensearch.index.query.QueryStringQueryBuilder
+import org.opensearch.search.SearchHit
+import org.opensearch.search.SearchHits
+import org.opensearch.search.SearchModule
+import org.opensearch.search.aggregations.Aggregation
+import org.opensearch.search.aggregations.Aggregations
+import org.opensearch.search.aggregations.AggregatorFactories
+import org.opensearch.search.aggregations.BaseAggregationBuilder
+import org.opensearch.search.builder.SearchSourceBuilder
+import org.opensearch.search.fetch.subphase.highlight.HighlightBuilder
+import org.opensearch.search.sort.SortBuilder
+import org.opensearch.search.sort.SortOrder
 
 import java.util.function.Supplier
 
 import static grails.plugins.elasticsearch.util.AbstractQueryBuilderParser.parseInnerQueryBuilder
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery
+import static org.opensearch.index.query.QueryBuilders.queryStringQuery
 
 @Slf4j
 class ElasticSearchService implements GrailsApplicationAware {
