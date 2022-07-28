@@ -22,6 +22,7 @@ apply plugin: "org.grails.grails-plugin"
 apply plugin: "org.grails.internal.grails-plugin-publish"
 apply plugin: "org.grails.grails-gsp"
 apply plugin: "de.undercouch.download"
+apply plugin: "maven-publish"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -141,5 +142,24 @@ grailsPublish {
             james: 'James Kleeh',
             cgoit: 'Carsten Götzinger'
     ]
+}
+
+publishing {
+    repositories {
+        maven {
+            name = 'ochre-libs'
+            url = "https://repos.ochre.io/repository/ochre-libs/"
+            /*
+             * Set these values locally in ~/.gradle/gradle.properties:
+             *
+             * ochreLibsRepoUsername=myRepoUser
+             * ochreLibsRepoPassword=myRepoPassword
+             */
+            credentials {
+                username ochreLibsRepoUsername
+                password ochreLibsRepoPassword
+            }
+        }
+    }
 }
 
