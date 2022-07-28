@@ -95,7 +95,7 @@ class SearchableClassMapping implements ElasticSearchConfigAware {
           name = prefix + "."+name
         }
 
-        // index name must be lowercase (org.elasticsearch.indices.InvalidIndexNameException)
+        // index name must be lowercase (org.opensearch.indices.InvalidIndexNameException)
         name.toLowerCase()
     }
 

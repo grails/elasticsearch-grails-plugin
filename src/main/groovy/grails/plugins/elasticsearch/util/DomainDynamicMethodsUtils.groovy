@@ -23,9 +23,9 @@ import grails.plugins.elasticsearch.mapping.DomainEntity
 import grails.plugins.elasticsearch.mapping.DomainReflectionService
 import grails.plugins.elasticsearch.mapping.SearchableClassMapping
 import org.apache.commons.logging.LogFactory
-import org.elasticsearch.index.query.QueryBuilder
-import org.elasticsearch.search.aggregations.AggregationBuilder
-import org.elasticsearch.search.aggregations.BaseAggregationBuilder
+import org.opensearch.index.query.QueryBuilder
+import org.opensearch.search.aggregations.AggregationBuilder
+import org.opensearch.search.aggregations.BaseAggregationBuilder
 import org.springframework.context.ApplicationContext
 
 class DomainDynamicMethodsUtils {

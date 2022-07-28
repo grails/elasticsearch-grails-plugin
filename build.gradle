@@ -22,6 +22,7 @@ apply plugin: "org.grails.grails-plugin"
 apply plugin: "org.grails.internal.grails-plugin-publish"
 apply plugin: "org.grails.grails-gsp"
 apply plugin: "de.undercouch.download"
+apply plugin: "maven-publish"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -54,41 +55,41 @@ sourcesJar {
 }
 
 dependencies {
-    provided 'org.springframework.boot:spring-boot-starter-logging'
-    provided "org.springframework.boot:spring-boot-starter-actuator"
-    provided "org.springframework.boot:spring-boot-autoconfigure"
-    provided "org.springframework.boot:spring-boot-starter-tomcat"
-    provided "org.grails:grails-web-boot"
-    provided "org.grails:grails-dependencies"
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-autoconfigure"
+    implementation "org.springframework.boot:spring-boot-starter-tomcat"
+    implementation "org.grails:grails-web-boot"
+    implementation "org.grails:grails-dependencies"
 
-    provided "org.grails:grails-plugin-services"
-    provided "org.grails:grails-plugin-domain-class"
+    implementation "org.grails:grails-plugin-services"
+    implementation "org.grails:grails-plugin-domain-class"
 
-    compile "org.grails:grails-core"
-    compile "org.grails.plugins:hibernate5"
-    compile "org.grails.plugins:cache"
-    compile "org.hibernate:hibernate-ehcache"
-    compile "org.apache.logging.log4j:log4j-api:2.18.0"
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.18.0'
-    compile "org.elasticsearch:elasticsearch:${elasticsearchVersion}"
-    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-client', version: elasticsearchVersion
-    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client', version: elasticsearchVersion
-    compile group: 'org.locationtech.spatial4j', name: 'spatial4j', version: '0.8'
+    implementation "org.grails:grails-core"
+    implementation "org.grails.plugins:hibernate5"
+    implementation "org.grails.plugins:cache"
+    implementation "org.hibernate:hibernate-ehcache"
+    implementation "org.apache.logging.log4j:log4j-api:2.18.0"
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.18.0'
+    implementation "org.opensearch:opensearch:${elasticsearchVersion}"
+    implementation group: 'org.opensearch.client', name: 'opensearch-rest-client', version: elasticsearchVersion
+    implementation group: 'org.opensearch.client', name: 'opensearch-rest-high-level-client', version: elasticsearchVersion
+    implementation group: 'org.locationtech.spatial4j', name: 'spatial4j', version: '0.8'
 
     console "org.grails:grails-console"
 
     profile "org.grails.profiles:web-plugin"
 
-    testRuntime 'com.spatial4j:spatial4j:0.5'
-    testRuntime 'org.apache.tomcat:tomcat-jdbc'
+    testRuntimeOnly 'com.spatial4j:spatial4j:0.5'
+    testRuntimeOnly 'org.apache.tomcat:tomcat-jdbc'
 
-    testCompile "org.grails:grails-gorm-testing-support"
-    testCompile "org.grails:grails-web-testing-support"
+    testImplementation "org.grails:grails-gorm-testing-support"
+    testImplementation "org.grails:grails-web-testing-support"
 
-    testCompile 'com.vividsolutions:jts:1.13'
-    testCompile 'com.googlecode.json-simple:json-simple:1.1.1'
+    testImplementation 'com.vividsolutions:jts:1.13'
+    testImplementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
-    compile fileTree(dir: "libs/elasticsearch", include: '*.jar')
+    implementation fileTree(dir: "libs/elasticsearch", include: '*.jar')
 }
 
 task cleanLibsDir(type: Delete) {
@@ -122,9 +123,9 @@ bootRun {
 // enable if you wish to package this plugin as a standalone application
 bootJar.enabled = false
 
-apply from: "gradle/documentation.gradle"
+// apply from: "gradle/documentation.gradle"
 
-apply from: "gradle/publish.gradle"
+// apply from: "gradle/publish.gradle"
 
 grailsPublish {
     githubSlug = 'grails-plugins/elasticsearch-grails-plugin'
@@ -141,5 +142,24 @@ grailsPublish {
             james: 'James Kleeh',
             cgoit: 'Carsten Götzinger'
     ]
+}
+
+publishing {
+    repositories {
+        maven {
+            name = 'ochre-libs'
+            url = "https://repos.ochre.io/repository/ochre-libs/"
+            /*
+             * Set these values locally in ~/.gradle/gradle.properties:
+             *
+             * ochreLibsRepoUsername=myRepoUser
+             * ochreLibsRepoPassword=myRepoPassword
+             */
+            credentials {
+                username ochreLibsRepoUsername
+                password ochreLibsRepoPassword
+            }
+        }
+    }
 }
 

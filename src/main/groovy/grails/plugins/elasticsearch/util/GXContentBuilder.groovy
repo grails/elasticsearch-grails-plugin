@@ -19,10 +19,10 @@
 
 package grails.plugins.elasticsearch.util
 
-import org.elasticsearch.common.bytes.BytesReference
-import org.elasticsearch.common.xcontent.XContentBuilder
-import org.elasticsearch.common.xcontent.XContentFactory
-import org.elasticsearch.common.xcontent.XContentType
+import org.opensearch.common.bytes.BytesReference
+import org.opensearch.common.xcontent.XContentBuilder
+import org.opensearch.common.xcontent.XContentFactory
+import org.opensearch.common.xcontent.XContentType
 
 /**
  * This is a hacked version of EC's GXContentBuilder with patched property delegation.

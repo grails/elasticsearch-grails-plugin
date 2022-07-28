@@ -2,8 +2,8 @@ package grails.plugins.elasticsearch
 
 import groovy.transform.CompileStatic
 import org.apache.lucene.search.TotalHits
-import org.elasticsearch.search.aggregations.Aggregation
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightField
+import org.opensearch.search.aggregations.Aggregation
+import org.opensearch.search.fetch.subphase.highlight.HighlightField
 
 @CompileStatic
 class ElasticSearchResult {
