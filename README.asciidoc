@@ -1,6 +1,6 @@
 == Elasticsearch Grails plugin https://github.com/grails-plugins/elasticsearch-grails-plugin/actions/workflows/gradle.yml[image:https://github.com/grails-plugins/elasticsearch-grails-plugin/actions/workflows/gradle.yml/badge.svg[!Java CI]]
 
-https://grails-plugins.github.io/elasticsearch-grails-plugin/[documentation about the plugin]
+https://grails.github.io/elasticsearch-grails-plugin/latest/[Documentation about the plugin]
 
 === How can I obtain the plugin?
 
