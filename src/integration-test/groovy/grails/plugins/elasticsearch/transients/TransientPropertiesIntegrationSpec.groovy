@@ -7,8 +7,8 @@ import grails.plugins.elasticsearch.ElasticSearchService
 import grails.plugins.elasticsearch.mapping.SearchableClassMappingConfigurator
 import grails.testing.mixin.integration.Integration
 import org.apache.lucene.search.join.ScoreMode
-import org.elasticsearch.index.query.NestedQueryBuilder
-import org.elasticsearch.index.query.QueryBuilders
+import org.opensearch.index.query.NestedQueryBuilder
+import org.opensearch.index.query.QueryBuilders
 import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Specification
 import test.transients.*

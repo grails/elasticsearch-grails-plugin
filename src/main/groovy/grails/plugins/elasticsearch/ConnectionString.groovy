@@ -1,7 +1,7 @@
 package grails.plugins.elasticsearch
 
 import groovy.util.logging.Slf4j
-import org.elasticsearch.ElasticsearchException
+import org.opensearch.OpenSearchException
 
 import static java.lang.String.format
 import static java.util.Arrays.asList
@@ -98,7 +98,7 @@ class ConnectionString {
                     try {
                         portToUse = Integer.parseInt(hostToUse.substring(idx + 1))
                     } catch (NumberFormatException e) {
-                        throw new ElasticsearchException("host and port should be specified in host:port format")
+                        throw new OpenSearchException("host and port should be specified in host:port format")
                     }
                     hostToUse = hostToUse.substring(0, idx).trim()
                 }

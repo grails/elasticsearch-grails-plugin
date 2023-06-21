@@ -2,12 +2,12 @@ package grails.plugins.elasticsearch
 
 import grails.gorm.transactions.Rollback
 import grails.testing.mixin.integration.Integration
-import org.elasticsearch.index.query.Operator
-import org.elasticsearch.index.query.QueryBuilder
-import org.elasticsearch.index.query.QueryBuilders
-import org.elasticsearch.search.aggregations.AggregationBuilder
-import org.elasticsearch.search.aggregations.AggregationBuilders
-import org.elasticsearch.search.aggregations.bucket.filter.FiltersAggregator
+import org.opensearch.index.query.Operator
+import org.opensearch.index.query.QueryBuilder
+import org.opensearch.index.query.QueryBuilders
+import org.opensearch.search.aggregations.AggregationBuilder
+import org.opensearch.search.aggregations.AggregationBuilders
+import org.opensearch.search.aggregations.bucket.filter.FiltersAggregator
 import spock.lang.Specification
 import test.Photo
 

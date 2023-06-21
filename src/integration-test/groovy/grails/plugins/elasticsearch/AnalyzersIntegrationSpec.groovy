@@ -5,7 +5,7 @@ import spock.lang.Specification
 import grails.testing.mixin.integration.Integration
 import grails.gorm.transactions.Rollback
 
-import org.elasticsearch.index.query.QueryBuilders
+import org.opensearch.index.query.QueryBuilders
 import test.all.Post
 
 /**
