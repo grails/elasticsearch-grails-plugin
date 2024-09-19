@@ -22,6 +22,7 @@ import grails.plugins.elasticsearch.index.IndexRequestQueue
 import grails.plugins.elasticsearch.mapping.SearchableClassMapping
 import grails.plugins.elasticsearch.util.GXContentBuilder
 import groovy.util.logging.Slf4j
+import org.bson.types.MinKey
 import org.elasticsearch.action.search.SearchRequest
 import org.elasticsearch.action.search.SearchResponse
 import org.elasticsearch.client.RequestOptions
@@ -58,6 +59,7 @@ class ElasticSearchService implements GrailsApplicationAware {
 
     private static final int INDEX_REQUEST = 0
     private static final int DELETE_REQUEST = 1
+    static final String MONGO_DATABASE = "mongoDatastore"
 
     GrailsApplication grailsApplication
     ElasticSearchHelper elasticSearchHelper
@@ -352,13 +354,24 @@ class ElasticSearchService implements GrailsApplicationAware {
                         }
                     }*/
                     long offset = 0L
+                    def id = new MinKey()
                     (1..rounds).each { round ->
                         try {
                             log.debug("Bulk index iteration $round: fetching $max results starting from ${offset}")
                             persistenceInterceptor.init()
                             persistenceInterceptor.setReadOnly()
 
-                            List<Class<?>> results = domainClass.listOrderById([offset: offset, max: max, readOnly: true, sort: 'id', order: "asc"])
+                            List<Class<?>> results
+                            switch (grailsApplication.config.elasticsearch.datastoreImpl) {
+                                case MONGO_DATABASE:
+                                    results = domainClass.createCriteria().list([offset: 0, max: max, readOnly: true, sort: 'id', order: "asc"]) {
+                                        gt 'id', id
+                                    }
+                                    break
+                                default:
+                                    results = domainClass.listOrderById([offset: offset, max: max, readOnly: true, sort: 'id', order: "asc"])
+                                    break
+                            }
 
                             // set lastId for next run
                             offset = round * max
@@ -372,6 +385,7 @@ class ElasticSearchService implements GrailsApplicationAware {
                                     indexRequestQueue.addDeleteRequest(entry)
                                     log.debug("Adding the document ${entry.id} to the delete request queue")
                                 }
+                                id = entry.id
                             }
                             indexRequestQueue.executeRequests()
 

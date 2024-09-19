@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        mavenLocal ()
         maven { url "https://repo.grails.org/grails/core" }
     }
     dependencies {
@@ -73,6 +74,7 @@ dependencies {
     compile "org.elasticsearch:elasticsearch:${elasticsearchVersion}"
     compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-client', version: elasticsearchVersion
     compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client', version: elasticsearchVersion
+    compile "org.mongodb:mongodb-driver:3.9.1"
     compile group: 'org.locationtech.spatial4j', name: 'spatial4j', version: '0.8'
 
     console "org.grails:grails-console"
@@ -83,6 +85,7 @@ dependencies {
     testRuntime 'org.apache.tomcat:tomcat-jdbc'
 
     testCompile "org.grails:grails-gorm-testing-support"
+//    testCompile "org.grails:grails-plugin-testing"
     testCompile "org.grails:grails-web-testing-support"
 
     testCompile 'com.vividsolutions:jts:1.13'

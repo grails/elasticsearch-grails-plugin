@@ -207,8 +207,7 @@ class SearchableClassPropertyMapping {
      * @return true if field is analyzed. NOTE it doesn't have to be stored.
      */
     boolean isAnalyzed() {
-        String index = (String) mappingAttributes.index
-        (index == null || index)
+        mappingAttributes.get('index') != null ? mappingAttributes.get('index') == 'false' : true
     }
 
     /**
