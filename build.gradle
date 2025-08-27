@@ -5,9 +5,9 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsGradlePluginVersion"
-        classpath 'org.asciidoctor:asciidoctor-gradle-jvm:3.3.2'
-        classpath 'org.asciidoctor:asciidoctor-gradle-jvm-pdf:3.3.2'
-        classpath 'org.asciidoctor:asciidoctor-gradle-jvm-epub:3.3.2'
+        classpath 'org.asciidoctor:asciidoctor-gradle-jvm:4.0.5'
+        classpath 'org.asciidoctor:asciidoctor-gradle-jvm-pdf:4.0.5'
+        classpath 'org.asciidoctor:asciidoctor-gradle-jvm-epub:4.0.5'
         classpath 'org.ajoberstar:gradle-git:1.7.2'
         classpath "org.grails.plugins:hibernate5:${gormHibernateVersion-".RELEASE"}"
         classpath "de.undercouch:gradle-download-task:5.1.0"
