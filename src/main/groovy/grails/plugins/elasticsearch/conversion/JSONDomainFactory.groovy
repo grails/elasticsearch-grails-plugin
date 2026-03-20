@@ -35,7 +35,7 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder
 /**
  * Marshall objects as JSON.
  */
-class JSONDomainFactory implements ElasticSearchConfigAware {
+class JSONDomainFactory {
 
     ElasticSearchContextHolder elasticSearchContextHolder
     GrailsApplication grailsApplication
@@ -183,9 +183,6 @@ class JSONDomainFactory implements ElasticSearchConfigAware {
     }
 
     DomainEntity getInstanceDomainClass(Object instance) {
-        if (hibernateDataStoreConfigured()) {
-            instance = GrailsHibernateUtil.unwrapIfProxy(instance)
-        }
         domainReflectionService.getDomainEntity(instance.class)
     }
 
