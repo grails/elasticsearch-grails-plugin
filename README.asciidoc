@@ -25,11 +25,11 @@ In order to simply the versioning, with v3.0.0.M1 the Elasticsearch Grails plugi
 |Plugin Version | Grails Version | Elasticsearch Version
 
 |4.0.0
-|5.3.x
-|7.11.2
+|5.3.x - 6.x.x
+|7.15.2
 
 |3.0.0
-|4.0.x
+|4.0.x - 6.x.x
 |7.8.0
 
 |2.7.0
