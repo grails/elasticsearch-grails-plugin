@@ -75,8 +75,8 @@ dependencies {
     implementation "org.grails.plugins:hibernate5"
     implementation "org.grails.plugins:cache"
     implementation "org.hibernate:hibernate-ehcache"
-    implementation "org.apache.logging.log4j:log4j-api:2.24.3"
-    implementation "org.apache.logging.log4j:log4j-core:2.24.3"
+    implementation "org.apache.logging.log4j:log4j-api:2.25.4"
+    implementation "org.apache.logging.log4j:log4j-core:2.25.4"
 
     api "org.elasticsearch:elasticsearch:${elasticsearchVersion}"
     api "org.elasticsearch.client:elasticsearch-rest-client:${elasticsearchVersion}"
