@@ -103,7 +103,7 @@ if (location.href.indexOf('is-external=true') == -1) {
             <br>
 
 <pre>class ElasticSearchService.1
-extends org.elasticsearch.common.xcontent.DeprecationHandler</pre>
+extends org.elasticsearch.xcontent.DeprecationHandler</pre>
 
           </li>
     </ul>
@@ -129,7 +129,7 @@ extends org.elasticsearch.common.xcontent.DeprecationHandler</pre>
                             <th class="colLast" scope="col">Fields</th>
                         </tr>
                                                 <tr class="altColor">
-                            <td class="colFirst"><strong><code>interface org.elasticsearch.common.xcontent.DeprecationHandler</code></strong></td>
+                            <td class="colFirst"><strong><code>interface org.elasticsearch.xcontent.DeprecationHandler</code></strong></td>
                             <td class="colLast"><code>THROW_UNSUPPORTED_OPERATION, IGNORE_DEPRECATIONS</code></td>
                         </tr>
 
@@ -188,19 +188,19 @@ extends org.elasticsearch.common.xcontent.DeprecationHandler</pre>
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>void</code></td>
-                            <td class="colLast"><code><strong><a href="#usedDeprecatedField(java.lang.String, Supplier, java.lang.String, java.lang.String)">usedDeprecatedField</a></strong>(java.lang.String parserName, java.util.function.Supplier&lt;org.elasticsearch.common.xcontent.XContentLocation&gt; location, java.lang.String usedName, java.lang.String replacedWith)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#usedDeprecatedField(java.lang.String, Supplier, java.lang.String, java.lang.String)">usedDeprecatedField</a></strong>(java.lang.String parserName, java.util.function.Supplier&lt;org.elasticsearch.xcontent.XContentLocation&gt; location, java.lang.String usedName, java.lang.String replacedWith)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>void</code></td>
-                            <td class="colLast"><code><strong><a href="#usedDeprecatedField(java.lang.String, Supplier, java.lang.String)">usedDeprecatedField</a></strong>(java.lang.String parserName, java.util.function.Supplier&lt;org.elasticsearch.common.xcontent.XContentLocation&gt; location, java.lang.String usedName)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#usedDeprecatedField(java.lang.String, Supplier, java.lang.String)">usedDeprecatedField</a></strong>(java.lang.String parserName, java.util.function.Supplier&lt;org.elasticsearch.xcontent.XContentLocation&gt; location, java.lang.String usedName)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>void</code></td>
-                            <td class="colLast"><code><strong><a href="#usedDeprecatedName(java.lang.String, Supplier, java.lang.String, java.lang.String)">usedDeprecatedName</a></strong>(java.lang.String parserName, java.util.function.Supplier&lt;org.elasticsearch.common.xcontent.XContentLocation&gt; location, java.lang.String usedName, java.lang.String modernName)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#usedDeprecatedName(java.lang.String, Supplier, java.lang.String, java.lang.String)">usedDeprecatedName</a></strong>(java.lang.String parserName, java.util.function.Supplier&lt;org.elasticsearch.xcontent.XContentLocation&gt; location, java.lang.String usedName, java.lang.String modernName)</code><br></td>
                         </tr>
                         
                     </table>
@@ -218,8 +218,8 @@ extends org.elasticsearch.common.xcontent.DeprecationHandler</pre>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code>interface org.elasticsearch.common.xcontent.DeprecationHandler</code></td>
-                            <td class="colLast"><code>org.elasticsearch.common.xcontent.DeprecationHandler#usedDeprecatedField(java.lang.String, java.util.function.Supplier, java.lang.String), org.elasticsearch.common.xcontent.DeprecationHandler#usedDeprecatedField(java.lang.String, java.util.function.Supplier, java.lang.String, java.lang.String), org.elasticsearch.common.xcontent.DeprecationHandler#usedDeprecatedName(java.lang.String, java.util.function.Supplier, java.lang.String, java.lang.String)</code></td>
+                            <td class="colFirst"><code>interface org.elasticsearch.xcontent.DeprecationHandler</code></td>
+                            <td class="colLast"><code>org.elasticsearch.xcontent.DeprecationHandler#usedDeprecatedName(java.lang.String, java.util.function.Supplier, java.lang.String, java.lang.String), org.elasticsearch.xcontent.DeprecationHandler#usedDeprecatedField(java.lang.String, java.util.function.Supplier, java.lang.String, java.lang.String), org.elasticsearch.xcontent.DeprecationHandler#usedDeprecatedField(java.lang.String, java.util.function.Supplier, java.lang.String)</code></td>
                         </tr>
                     </table>
                    </ul>
@@ -275,7 +275,7 @@ extends org.elasticsearch.common.xcontent.DeprecationHandler</pre>
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>@java.lang.Override
-void <strong>usedDeprecatedField</strong>(java.lang.String parserName, java.util.function.Supplier&lt;org.elasticsearch.common.xcontent.XContentLocation&gt; location, java.lang.String usedName, java.lang.String replacedWith)</h4>
+void <strong>usedDeprecatedField</strong>(java.lang.String parserName, java.util.function.Supplier&lt;org.elasticsearch.xcontent.XContentLocation&gt; location, java.lang.String usedName, java.lang.String replacedWith)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -284,7 +284,7 @@ void <strong>usedDeprecatedField</strong>(java.lang.String parserName, java.util
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>@java.lang.Override
-void <strong>usedDeprecatedField</strong>(java.lang.String parserName, java.util.function.Supplier&lt;org.elasticsearch.common.xcontent.XContentLocation&gt; location, java.lang.String usedName)</h4>
+void <strong>usedDeprecatedField</strong>(java.lang.String parserName, java.util.function.Supplier&lt;org.elasticsearch.xcontent.XContentLocation&gt; location, java.lang.String usedName)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -293,7 +293,7 @@ void <strong>usedDeprecatedField</strong>(java.lang.String parserName, java.util
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>@java.lang.Override
-void <strong>usedDeprecatedName</strong>(java.lang.String parserName, java.util.function.Supplier&lt;org.elasticsearch.common.xcontent.XContentLocation&gt; location, java.lang.String usedName, java.lang.String modernName)</h4>
+void <strong>usedDeprecatedName</strong>(java.lang.String parserName, java.util.function.Supplier&lt;org.elasticsearch.xcontent.XContentLocation&gt; location, java.lang.String usedName, java.lang.String modernName)</h4>
                                 <p></p>
                             </li>
                         </ul>
