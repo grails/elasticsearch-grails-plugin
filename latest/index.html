@@ -532,7 +532,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>Elasticsearch Plugin - Reference Documentation</h1>
 <div class="details">
 <span id="author" class="author">Puneet Behl</span><br>
-<span id="revnumber">version 5.0.0-RC1</span>
+<span id="revnumber">version 5.0.0</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -540,10 +540,10 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#introduction">Introduction</a>
 <ul class="sectlevel2">
 <li><a href="#features">Features</a></li>
-<li><a href="#history">History</a></li>
 <li><a href="#acknowledgments">Acknowledgments</a></li>
 <li><a href="#plugin-versioning">Plugin Versioning</a></li>
 <li><a href="#license">License</a></li>
+<li><a href="#history">History</a></li>
 </ul>
 </li>
 <li><a href="#configuration">Configuration</a>
@@ -578,7 +578,6 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#searching">Searching</a>
 <ul class="sectlevel2">
 <li><a href="#queryStrings">Query Strings</a></li>
-<li><a href="#queryClosure">Query Closure</a></li>
 <li><a href="#queryBuilder">Query Builder</a></li>
 <li><a href="#filterClosure">Filter Closure</a></li>
 <li><a href="#filterBuilder">Filter Builder</a></li>
@@ -615,18 +614,17 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h2 id="introduction"><a class="anchor" href="#introduction"></a>Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The ElasticSearch plugin intends to implement a simple integration with Grails of the Open Source Search Engine <a href="http://www.elasticsearch.org/">ElasticSearch</a>,
+<p>The ElasticSearch plugin intends to implement a simple integration with Grails of the Open Source Search Engine <a href="https://www.elastic.co/elasticsearch">ElasticSearch</a>,
 which is based on Lucene and provide distributed capabilities.</p>
 </div>
 <div class="paragraph">
-<p>The plugin focus on exposing Grails domain classes for the moment. It highly takes the existing <a href="http://grails.org/plugin/searchable">Searchable Plugin</a> as
-reference for its syntax and behaviour.</p>
+<p>The plugin focus on exposing Grails domain classes for the moment. It highly takes the long-time obsolete <a href="https://mvnrepository.com/artifact/org.grails.plugins/searchable">Searchable Plugin</a> as reference for its syntax and behaviour.</p>
 </div>
 <div class="paragraph">
 <p>Note that the plugin is still under development, so you may not be able to use all the features of ElasticSearch yet.</p>
 </div>
 <div class="paragraph">
-<p>In addition to this document, you may want to read the official ElasticSearch documentation <a href="http://www.elasticsearch.org/guide/">here</a>.</p>
+<p>In addition to this document, you may want to read the official ElasticSearch documentation <a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.17/elasticsearch-intro.html">here</a>.</p>
 </div>
 <div class="sect2">
 <h3 id="features"><a class="anchor" href="#features"></a>Features</h3>
@@ -651,6 +649,183 @@ reference for its syntax and behaviour.</p>
 <p>Support for term highlighting</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="acknowledgments"><a class="anchor" href="#acknowledgments"></a>Acknowledgments</h3>
+<div class="paragraph">
+<p>Many thanks to all the users who reported issues and sent me pull requests.</p>
+</div>
+<div class="sect3">
+<h4 id="authors-and-contributors"><a class="anchor" href="#authors-and-contributors"></a>Authors and Contributors</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/noamt">Noam Y. Tenne</a></p>
+</li>
+<li>
+<p><a href="https://github.com/stefanrother">Stefan Rother-Stübs (Dating Cafe)</a></p>
+</li>
+<li>
+<p><a href="https://github.com/skies">Sven Kiesewetter (Dating Cafe)</a></p>
+</li>
+<li>
+<p>Michael Schwartz (Dating Cafe)</p>
+</li>
+<li>
+<p><a href="https://github.com/marcoscarceles">Marcos Carceles</a></p>
+</li>
+<li>
+<p><a href="https://github.com/puneetbehl">Puneet Behl</a></p>
+</li>
+<li>
+<p><a href="https://github.com/cgoIT">Carsten Götzinger (cgo IT)</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="authors-and-contributors-of-the-original-plugin"><a class="anchor" href="#authors-and-contributors-of-the-original-plugin"></a>Authors and Contributors of the original plugin</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/mstein">Manuarii Stein (doc4web consulting)</a></p>
+</li>
+<li>
+<p><a href="https://github.com/smaldini">Stephane Maldini (doc4web consulting)</a></p>
+</li>
+<li>
+<p><a href="https://github.com/spn">Serge P. Nekoval</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="previous-work"><a class="anchor" href="#previous-work"></a>Previous work</h4>
+<div class="paragraph">
+<p>Graeme Rocher started the first draft which this plugin is based on.</p>
+</div>
+<div class="paragraph">
+<p>Get the full and updated list of contributors on the <a href="https://github.com/puneetbehl/elasticsearch-grails-plugin/graphs/contributors">github</a> repository.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="plugin-versioning"><a class="anchor" href="#plugin-versioning"></a>Plugin Versioning</h3>
+<div class="sect3">
+<h4 id="versioning"><a class="anchor" href="#versioning"></a>Versioning</h4>
+<div class="paragraph">
+<p>In order to simply the versioning, with v2.5.0 the Elasticsearch Grails plugin is using Semantic Versioning 2.0.0. To understand what that means, please see the specification <a href="https://semver.org/" class="ext-link" target="_blank" rel="noopener">documentation</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="old-versioning-strategy-upto-2-4-x-and-earlier-versions"><a class="anchor" href="#old-versioning-strategy-upto-2-4-x-and-earlier-versions"></a>Old Versioning Strategy (Upto 2.4.x and earlier versions)</h4>
+<div class="paragraph">
+<p>The version number of the plugin will reflect the one of the underline integrated Elasticsearch.
+If necessary a 4th level point release number will be used for successive changes on the plugin&#8217;s code with same version of Elasticsearch.</p>
+</div>
+<div class="paragraph">
+<p><code>&lt;GRAILS_VERSION&gt;.&lt;ES_VERSION&gt;.&lt;FEATURE/PATCH_VERSION&gt;</code>, where there isn&#8217;t really a 1-to-1 plugin version to grails or es version, but we just increase our major or minor version by one, whenever there are breaking changes on either Grails or ES.
+<code>&lt;GRAILS_VERSION&gt;.&lt;ES_VERSION&gt;.&lt;FEATURE/PATCH_VERSION&gt;</code>, where there isn&#8217;t really a 1-to-1 plugin version to grails or es version, but we just increase our major or minor version by one, whenever there are breaking changes on either Grails or ES. Therefore future release versions could look something similar to this (depending on Grails and Elasticsearch versions):</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="version-table"><a class="anchor" href="#version-table"></a>Version Table</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Plugin Version</th>
+<th class="tableblock halign-left valign-top">Grails</th>
+<th class="tableblock halign-left valign-top">Elasticsearch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>5.0.0</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>7.x</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>7.17.29</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>4.0.0</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>5.3.x - 6.x.x</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>7.17.29</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.0.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.0.x - 6.x.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7.8.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.0.0.M1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7.x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.7.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.3.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7.x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.5.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.3.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.5.3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.4.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.3.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.4.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.3.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.4.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.3.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.4.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.1.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5.x (tested with 5.4.1)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.2.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.1.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.3.x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.0.0.2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3.0.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1.0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.4.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.1.x</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.0.4.5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2.4.x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1.x</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Current version is <strong>5.0.0</strong></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="license"><a class="anchor" href="#license"></a>License</h3>
+<div class="paragraph">
+<p>This plugin is released under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a></p>
 </div>
 </div>
 <div class="sect2">
@@ -1358,166 +1533,6 @@ reference for its syntax and behaviour.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="acknowledgments"><a class="anchor" href="#acknowledgments"></a>Acknowledgments</h3>
-<div class="paragraph">
-<p>Many thanks to all the users who reported issues and sent me pull requests.</p>
-</div>
-<div class="sect3">
-<h4 id="authors-and-contributors"><a class="anchor" href="#authors-and-contributors"></a>Authors and Contributors</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://github.com/noamt">Noam Y. Tenne</a></p>
-</li>
-<li>
-<p><a href="https://github.com/stefanrother">Stefan Rother-Stübs (Dating Cafe)</a></p>
-</li>
-<li>
-<p><a href="https://github.com/skies">Sven Kiesewetter (Dating Cafe)</a></p>
-</li>
-<li>
-<p>Michael Schwartz (Dating Cafe)</p>
-</li>
-<li>
-<p><a href="https://github.com/marcoscarceles">Marcos Carceles</a></p>
-</li>
-<li>
-<p><a href="https://github.com/puneetbehl">Puneet Behl</a></p>
-</li>
-<li>
-<p><a href="https://github.com/cgoIT">Carsten Götzinger (cgo IT)</a></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="authors-and-contributors-of-the-original-plugin"><a class="anchor" href="#authors-and-contributors-of-the-original-plugin"></a>Authors and Contributors of the original plugin</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://github.com/mstein">Manuarii Stein (doc4web consulting)</a></p>
-</li>
-<li>
-<p><a href="https://github.com/smaldini">Stephane Maldini (doc4web consulting)</a></p>
-</li>
-<li>
-<p><a href="https://github.com/spn">Serge P. Nekoval</a></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="previous-work"><a class="anchor" href="#previous-work"></a>Previous work</h4>
-<div class="paragraph">
-<p>Graeme Rocher started the first draft which this plugin is based on.</p>
-</div>
-<div class="paragraph">
-<p>Get the full and updated list of contributors on the <a href="https://github.com/puneetbehl/elasticsearch-grails-plugin/graphs/contributors">github</a> repository.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="plugin-versioning"><a class="anchor" href="#plugin-versioning"></a>Plugin Versioning</h3>
-<div class="sect3">
-<h4 id="versioning"><a class="anchor" href="#versioning"></a>Versioning</h4>
-<div class="paragraph">
-<p>In order to simply the versioning, with v2.5.0 the Elasticsearch Grails plugin is using Semantic Versioning 2.0.0. To understand what that means, please see the specification <a href="https://semver.org/" class="ext-link" target="_blank" rel="noopener">documentation</a>.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="old-versioning-strategy-upto-2-4-x-and-earlier-versions"><a class="anchor" href="#old-versioning-strategy-upto-2-4-x-and-earlier-versions"></a>Old Versioning Strategy (Upto 2.4.x and earlier versions)</h4>
-<div class="paragraph">
-<p>The version number of the plugin will reflect the one of the underline integrated Elasticsearch.
-If necessary a 4th level point release number will be used for successive changes on the plugin&#8217;s code with same version of Elasticsearch.</p>
-</div>
-<div class="paragraph">
-<p><code>&lt;GRAILS_VERSION&gt;.&lt;ES_VERSION&gt;.&lt;FEATURE/PATCH_VERSION&gt;</code>, where there isn&#8217;t really a 1-to-1 plugin version to grails or es version, but we just increase our major or minor version by one, whenever there are breaking changes on either Grails or ES.
-<code>&lt;GRAILS_VERSION&gt;.&lt;ES_VERSION&gt;.&lt;FEATURE/PATCH_VERSION&gt;</code>, where there isn&#8217;t really a 1-to-1 plugin version to grails or es version, but we just increase our major or minor version by one, whenever there are breaking changes on either Grails or ES. Therefore future release versions could look something similar to this (depending on Grails and Elasticsearch versions):</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="version-table"><a class="anchor" href="#version-table"></a>Version Table</h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Plugin Version</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Grails</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Elasticsearch</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>3.0.0.M1</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>4.0.x</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>7.x</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>2.7.0</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>3.3.x</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>7.x</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>2.5.0</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>3.3.x</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>5.5.3</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2.4.2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3.3.x</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5.x</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2.4.1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3.3.x</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5.x</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2.4.0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3.3.x</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5.x</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1.4.1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3.1.x</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5.x (tested with 5.4.1)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1.2.0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3.1.x</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2.3.x</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1.0.0.2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3.0.x</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1.x</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0.1.0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2.4.x</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2.1.x</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0.0.4.5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2.4.x</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1.x</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Current version is <strong>5.0.0-RC1</strong> (for Grails 2.x the latest version is <strong>0.1.0</strong>)</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="license"><a class="anchor" href="#license"></a>License</h3>
-<div class="paragraph">
-<p>This plugin is released under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a></p>
-</div>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -1787,7 +1802,7 @@ The mode is defined with the following config key:</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>'alias'</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Applies <a href="http://www.elasticsearch.org/blog/changing-mapping-with-zero-downtime/">Elasticsearch recommended approach for migrating conflicting mappings</a>. A new numbered index will be created (<code>&lt;indexName&gt;_vX</code>) where new mappings will installed for all the types included on the original index. An Elasticsearch alias called <code>&lt;indexName&gt;</code> will point to the new index. As content won&#8217;t be available on the new index, content can be automatically reindexed on startup by using this in combination the <code>elasticSearch.bulkIndexOnStartup</code> config option. It is recommended to set <code>elasticSearch.aliasReplacesIndex</code> to deal with potential index/alias conflicts.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Applies <a href="https://www.elastic.co/docs/manage-data/data-store/aliases">Elasticsearch recommended approach for migrating conflicting mappings</a>. A new numbered index will be created (<code>&lt;indexName&gt;_vX</code>) where new mappings will installed for all the types included on the original index. An Elasticsearch alias called <code>&lt;indexName&gt;</code> will point to the new index. As content won&#8217;t be available on the new index, content can be automatically reindexed on startup by using this in combination the <code>elasticSearch.bulkIndexOnStartup</code> config option. It is recommended to set <code>elasticSearch.aliasReplacesIndex</code> to deal with potential index/alias conflicts.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2113,18 +2128,10 @@ Default to <code>false</code>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="elasticsearch-index-compound_format"><a class="anchor" href="#elasticsearch-index-compound_format"></a><code>elasticSearch.index.compound_format</code></h4>
-<div class="paragraph">
-<p>Should the compound file format be used (boolean setting).
-Set to <code>false</code> by default (really applicable for file system based index storage).
-More details on this setting on the <a href="http://www.elasticsearch.org/guide/reference/index-modules/">ElasticSearch Documentation</a>.</p>
-</div>
-</div>
-<div class="sect3">
 <h4 id="elasticsearch-index-store-type"><a class="anchor" href="#elasticsearch-index-store-type"></a><code>elasticSearch.index.store.type</code></h4>
 <div class="paragraph">
 <p>Determine how the indices will be stored.
-More details on the possible values on the <a href="http://www.elasticsearch.org/guide/reference/index-modules/store.html">ElasticSearch Documentation</a>.</p>
+More details on the possible values on the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.17/index-modules-store.html">ElasticSearch Documentation</a>.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 6. Possible value for index store type</caption>
@@ -2162,14 +2169,6 @@ More details on the possible values on the <a href="http://www.elasticsearch.org
 <h4 id="elasticsearch-index-settings-numberofreplicas"><a class="anchor" href="#elasticsearch-index-settings-numberofreplicas"></a><code>elasticSearch.index.settings.numberOfReplicas</code></h4>
 <div class="paragraph">
 <p>Sets the number of replicas created for each shard of the index. If not present, will default to zero.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="elasticsearch-gateway-type"><a class="anchor" href="#elasticsearch-gateway-type"></a><code>elasticSearch.gateway.type</code></h4>
-<div class="paragraph">
-<p>Determine the gateway type to be used.
-More details on the possible values are in the <a href="http://www.elasticsearch.org/guide/reference/modules/gateway/">ElasticSearch Documentation</a>.
-Using a setting of "none" (possibly in combination with index.store.type set to "memory") can be useful for tests.</p>
 </div>
 </div>
 <div class="sect3">
@@ -2290,7 +2289,7 @@ ext[<span class="string"><span class="delimiter">'</span><span class="content">e
 conversionRule <span class="string"><span class="delimiter">'</span><span class="content">clr</span><span class="delimiter">'</span></span>, ColorConverter
 conversionRule <span class="string"><span class="delimiter">'</span><span class="content">wex</span><span class="delimiter">'</span></span>, WhitespaceThrowableProxyConverter
 
-<span class="comment">// See http://logback.qos.ch/manual/groovy.html for details on configuration</span>
+<span class="comment">// See https://logback.qos.ch/manual/groovy.html for details on configuration</span>
 appender(<span class="string"><span class="delimiter">'</span><span class="content">STDOUT</span><span class="delimiter">'</span></span>, ConsoleAppender) {
     encoder(PatternLayoutEncoder) {
         charset = <span class="predefined-type">Charset</span>.forName(<span class="string"><span class="delimiter">'</span><span class="content">UTF-8</span><span class="delimiter">'</span></span>)
@@ -2777,7 +2776,7 @@ This component must be mapped as a parent in the child element.</p>
 <p>A field can be aliased.  This is useful in situations where another service may expect certain tags.</p>
 </div>
 <div class="paragraph">
-<p>For example, <a href="http://www.elasticsearch.org/overview/kibana/">Kibana</a> uses an <code>\@timestamp</code> field to filter
+<p>For example, <a href="https://www.elastic.co/kibana">Kibana</a> uses an <code>\@timestamp</code> field to filter
 report records by date.</p>
 </div>
 <div class="paragraph">
@@ -3009,7 +3008,7 @@ searchable class of the association to be root-mapped.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>The default strategy is <code>'alias'</code> as it is the only strategy that can achieve zero-downtime migrations and thus <a href="http://www.elasticsearch.org/blog/changing-mapping-with-zero-downtime/">recommended by Elasticsearch</a></p>
+<p>The default strategy is <code>'alias'</code> as it is the only strategy that can achieve zero-downtime migrations and thus <a href="https://www.elastic.co/blog/changing-mapping-with-zero-downtime">recommended by Elasticsearch</a></p>
 </div>
 <div class="paragraph">
 <p>These values are described on more detail further ahead</p>
@@ -3050,7 +3049,7 @@ It will be responsibility for the application administrator to manually fix the 
 <div class="sect3">
 <h4 id="migration-strategy-alias"><a class="anchor" href="#migration-strategy-alias"></a>Migration Strategy 'alias'</h4>
 <div class="paragraph">
-<p>This is the migration strategy <a href="http://www.elasticsearch.org/blog/changing-mapping-with-zero-downtime/">recommended by Elasticsearch</a>.</p>
+<p>This is the migration strategy <a href="https://www.elastic.co/blog/changing-mapping-with-zero-downtime">recommended by Elasticsearch</a>.</p>
 </div>
 <div class="paragraph">
 <p>To better understand this strategy we will describe a typical <code>'alias'</code> migration.</p>
@@ -3332,7 +3331,7 @@ println <span class="string"><span class="delimiter">&quot;</span><span class="c
 You can pass it a simple <code>String</code> to compute your search request. That string will be parsed by the <strong>Lucene query parser</strong> so feel free to use its syntax to do more specific search query.</p>
 </div>
 <div class="paragraph">
-<p>You can find out about the syntax on the <a href="http://lucene.apache.org/java/3_0_3/queryparsersyntax.html">Apache Lucene website</a>.</p>
+<p>You can find out about the syntax on the <a href="https://lucene.apache.org/">Apache Lucene website</a>.</p>
 </div>
 <div class="paragraph">
 <p><strong>Example</strong></p>
@@ -3341,35 +3340,6 @@ You can pass it a simple <code>String</code> to compute your search request. Tha
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">def</span> results = elasticSearchService.search(<span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">${</span>params.query<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span>)
 <span class="keyword">def</span> resultsTweets = Tweet.search(<span class="string"><span class="delimiter">&quot;</span><span class="content">message:</span><span class="inline"><span class="inline-delimiter">${</span>params.query<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span>)</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="queryClosure"><a class="anchor" href="#queryClosure"></a>Query Closure</h3>
-<div class="paragraph">
-<p>You can use the <a href="http://www.elasticsearch.org/guide/en/elasticsearch/client/groovy-api/current/search.html">Groovy Query DSL</a> to build your search query as a <code>Closure</code>.</p>
-</div>
-<div class="paragraph">
-<p>The format of the search <code>Closure</code> follow the same JSON syntax as the  <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search.html">ElasticSearch REST API</a>
-and the <a href="http://www.elasticsearch.org/guide/en/elasticsearch/client/java-api/current/query-dsl-queries.html">Java Query DSL</a>.</p>
-</div>
-<div class="paragraph">
-<p><strong>Example</strong></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">def</span> result = elasticSearchService.search(<span class="key">searchType</span>:<span class="string"><span class="delimiter">'</span><span class="content">dfs_query_and_fetch</span><span class="delimiter">'</span></span>) {
-  bool {
-      must {
-          query_string(<span class="key">query</span>: params.query)
-      }
-      <span class="keyword">if</span> (params.firstname) {
-          must {
-              term(<span class="key">firstname</span>: params.firstname)
-          }
-      }
-  }
-}</code></pre>
 </div>
 </div>
 </div>
@@ -3439,7 +3409,7 @@ HTML/XML/Whatever tags.</p>
 </div>
 <div class="paragraph">
 <p>The format of the <code>Closure</code> for defining the highlight settings is the same as the
-<a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-request-highlighting.html">ElasticSearch REST API</a>.</p>
+<a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.17/highlighting.html">ElasticSearch REST API</a>.</p>
 </div>
 <div class="paragraph">
 <p><strong>Example</strong></p>
@@ -3773,7 +3743,7 @@ elasticSearchAdminService.refresh() <span class="comment">// Ensure that the 3 p
 </div>
 </div>
 <div class="paragraph">
-<p>Please refers to the <a href="http://www.elasticsearch.org/guide/reference/java-api/">Elastic Search API</a> for more information on the methods and properties available on the client.</p>
+<p>Please refers to the <a href="https://www.elastic.co/guide/en/elasticsearch/client/java-rest/7.17/java-rest-high.html">Elasticsearch High Level REST Client</a> for more information on the methods and properties available on the client API currently used by the plugin.</p>
 </div>
 </div>
 </div>
@@ -4101,7 +4071,7 @@ and corresponding <code>User</code> indexed documents will be updated since we h
 <p>Normally this issues happen where different versions of same modules are download from different plugins or dependencies in <code>build.gradle</code></p>
 </div>
 <div class="paragraph">
-<p>It seems like there are multiple versions of groovy in the classpath. Looks similar to <a href="http://stackoverflow.com/questions/31099214/tomcat-conflicting-module-versions-module-groovy-all-is-loaded-in-version-2-3" class="bare">http://stackoverflow.com/questions/31099214/tomcat-conflicting-module-versions-module-groovy-all-is-loaded-in-version-2-3</a></p>
+<p>It seems like there are multiple versions of groovy in the classpath. Looks similar to <a href="https://stackoverflow.com/questions/31099214/tomcat-conflicting-module-versions-module-groovy-all-is-loaded-in-version-2-3" class="bare">https://stackoverflow.com/questions/31099214/tomcat-conflicting-module-versions-module-groovy-all-is-loaded-in-version-2-3</a></p>
 </div>
 <div class="sect3">
 <h4 id="exception"><a class="anchor" href="#exception"></a>Exception</h4>
@@ -4164,8 +4134,8 @@ and corresponding <code>User</code> indexed documents will be updated since we h
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 5.0.0-RC1<br>
-Last updated 2026-05-01 13:35:28 UTC
+Version 5.0.0<br>
+Last updated 2026-05-12 19:42:52 UTC
 </div>
 </div>
 </body>
