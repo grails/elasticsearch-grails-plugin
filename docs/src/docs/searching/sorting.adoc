@@ -17,4 +17,4 @@ assert [1:[23, 42], 2: [24, 40]] == result.sort
 
 ----
 
-include::sorting/geoDistanceSorting.adoc[]
+include::sorting/geodistanceSorting.adoc[]

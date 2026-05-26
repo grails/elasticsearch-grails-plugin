@@ -9,12 +9,12 @@
 ## How can I obtain the plugin?
 
 Just like any other Grails plugin, through the Grails Plugin center.
-Edit your project's +build.gradle+ file, by adding the plugin's dependency declaration:
+Edit your project's `build.gradle` file, by adding the plugin's dependency declaration:
 
 ### Grails 7+
 
 build.gradle:
-```
+```groovy
 dependencies {
     ...
     implementation "org.grails.plugins:grails-elasticsearch:5.0.0"
@@ -25,7 +25,7 @@ dependencies {
 ### Grails 5/6
 
 build.gradle:
-```
+```groovy
 dependencies {
     ...
     implementation "org.grails.plugins:elasticsearch:4.0.0"
@@ -33,10 +33,10 @@ dependencies {
 }
 ```
 
-
 ## Versioning
 
-In order to simply the versioning, with v3.0.0.M1 the Elasticsearch Grails plugin is using Semantic Versioning 2.0.0. To understand what that means, please see the https://semver.org/[specification documentation].
+In order to simply the versioning, with v3.0.0.M1 the Elasticsearch Grails plugin is using Semantic Versioning 2.0.0.
+To understand what that means, please see the [specification documentation](https://semver.org/).
 
 The plugin version is neither tied to the Grails release nor the Elasticsearch client API used. Often it is possible to
 connect to newer Elasticsearch servers if you do not require the new features.
@@ -68,7 +68,7 @@ In the following we demonstrate two example configurations using Hibernate or Mo
 Check out the example application in this repository on using Elasticsearch in Grails 7.x with Hibernate.
 
 Add the following to your `grails-app/conf/application.yml`:
-```
+```yml
 elasticSearch:
     plugin:
         mapperAttachment:
@@ -84,15 +84,15 @@ elasticSearch:
 
 ### MongoDB
 
-build.gradle:
-```
+Add the MongoDB dependency to `build.gradle`:
+```groovy
 dependencies {
   compile 'org.grails.plugins:mongodb:7.0.0'
 }
 ```
 
-grails-app/conf/application.yml:
-```
+And the configuration to `grails-app/conf/application.yml`:
+```yml
 elasticSearch:
     plugin:
         mapperAttachment:

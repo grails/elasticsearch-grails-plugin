@@ -72,10 +72,10 @@ tasks.withType(Test).configureEach {
     }
     testLogging {
         events "passed", "skipped", "failed"//, "standardOut"
-        showExceptions true
-        exceptionFormat "full"
-        showCauses true
-        showStackTraces true
+        showExceptions = true
+        exceptionFormat = "full"
+        showCauses = true
+        showStackTraces = true
     }
 }
 
