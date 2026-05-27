@@ -35,7 +35,7 @@ class ElasticsearchGrailsPlugin extends Plugin {
        def license = "APACHE"
 
        // Details of company behind the plugin (if there is one)
-       def organization = [ name: 'TO THE NEW', url: 'http://www.tothenew.com']
+       def organization = [ name: 'TO THE NEW', url: 'https://www.tothenew.com']
 
        // Any additional developers beyond the author specified above.
        def developers = [
