@@ -3543,8 +3543,41 @@ results?.searchResults?.eachWithIndex { hit, index -&gt;
 <pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">assert</span> [<span class="integer">1</span>:[<span class="integer">23</span>, <span class="integer">42</span>], <span class="integer">2</span>: [<span class="integer">24</span>, <span class="integer">40</span>]] == result.sort</code></pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="geoDistanceSoring"><a class="anchor" href="#geoDistanceSoring"></a>Geo Distance Sorting</h4>
 <div class="paragraph">
-<p>Unresolved directive in searching/sorting.adoc - include::sorting/geoDistanceSorting.adoc[]</p>
+<p>To sort for geo distances, a SortBuilder must be passed to <code>search()</code></p>
+</div>
+<div class="paragraph">
+<p><strong>Example</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">def</span> sortBuilder = SortBuilders.geoDistanceSort(<span class="string"><span class="delimiter">&quot;</span><span class="content">location</span><span class="delimiter">&quot;</span></span>)
+    .point(<span class="float">48.141</span>, <span class="float">11.57</span>)
+    .unit(DistanceUnit.KILOMETERS)
+    .order(SortOrder.ASC)
+
+<span class="keyword">def</span> result = elasticSearchService.search(
+    [<span class="key">indices</span>: Building, <span class="key">types</span>: Building, <span class="key">sort</span>: sortBuilder],
+    <span class="predefined-constant">null</span> <span class="keyword">as</span> Closure,
+    {
+        geo_distance(
+            <span class="string"><span class="delimiter">'</span><span class="content">distance</span><span class="delimiter">'</span></span>: <span class="string"><span class="delimiter">'</span><span class="content">5km</span><span class="delimiter">'</span></span>,
+            <span class="string"><span class="delimiter">'</span><span class="content">location</span><span class="delimiter">'</span></span>: [<span class="key">lat</span>: <span class="float">48.141</span>, <span class="key">lon</span>: <span class="float">11.57</span>]
+        )
+    })</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The calculated distances are not part of the search results themselves but are part of <code>result.sort</code>.
+<code>sort</code> contains all search values calculated by the ElasticSearch server as a list mapped to the id of the respective domain objects</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">assert</span> [<span class="integer">1</span>:[<span class="float">2.34567</span>], <span class="integer">2</span>: [<span class="float">2.4402342</span>]] == result.sort</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -4144,7 +4177,7 @@ and corresponding <code>User</code> indexed documents will be updated since we h
 <div id="footer">
 <div id="footer-text">
 Version 5.0.1-SNAPSHOT<br>
-Last updated 2026-05-18 07:26:26 UTC
+Last updated 2026-05-27 06:57:55 UTC
 </div>
 </div>
 </body>
