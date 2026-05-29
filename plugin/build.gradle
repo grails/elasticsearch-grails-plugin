@@ -59,7 +59,7 @@ dependencies {
     testAndDevelopmentOnly "org.webjars.npm:jquery"
 
     constraints {
-        add('implementation', 'com.fasterxml.jackson.core:jackson-databind:2.21.3') {
+        add('implementation', 'com.fasterxml.jackson.core:jackson-databind:2.21.4') {
             because '2.9.10.5 from spatial4j has vulnerabilities'
         }
     }
