@@ -53,7 +53,7 @@
                         </div>
                         <p class="card-text text-body-secondary mb-0">
                             Ready to dig in? You can find in-depth documentation for all the features
-                            of Grails in the User Guide.
+                            of Grails in the grails.plugins.search.example.User Guide.
                         </p>
                     </div>
                 </a>

@@ -7,7 +7,7 @@ import grails.testing.mixin.integration.Integration
  * for more instructions on how to write functional tests with Grails and Geb.
  */
 @Integration
-class SearchAppSpec extends ContainerGebSpec {
+class TwitterAppSpec extends ContainerGebSpec {
 
     void 'should display the correct title on the home page'() {
         when: 'visiting the home page'

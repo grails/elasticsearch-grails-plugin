@@ -16,7 +16,7 @@ class Tag {
     // ...
 }
 
-class Tweet {
+class grails.plugins.search.example.Tweet {
     static searchable = {
         message boost:2.0
     }
@@ -33,7 +33,7 @@ For example, considered the following domain:
 
 [source, groovy]
 ----
-class User {
+class grails.plugins.search.example.User {
     static searchable = {
         userPreferences component:true
     }

@@ -1,4 +1,4 @@
-package grails.plugins.elasticsearch
+package grails.plugins.search.example
 
 class BootStrap {
 

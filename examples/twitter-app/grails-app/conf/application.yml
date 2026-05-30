@@ -47,6 +47,7 @@ dataSource:
   password: ''
   pooled: true
   jmxExport: true
+  dialect: H2Dialect
 environments:
   development:
     dataSource:
