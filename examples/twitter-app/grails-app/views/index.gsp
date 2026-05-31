@@ -24,13 +24,15 @@
 
             <%-- WELCOME MESSAGE --%>
             <div class="col-12 col-md-7">
-                <h1 class="display-6 fw-semibold mb-2">Welcome to Grails</h1>
+                <h1 class="display-6 fw-semibold mb-2">Twitter Elasticsearch Example</h1>
                 <p class="lead text-body-secondary">
-                    Congratulations, you have successfully started a Grails application.
+                    In this example app we show how to index domain object and how to search for certain items using the ElasticSearch-Plugin for Grails
                 </p>
                 <p class="text-body-secondary">
-                    At the moment this is the default page, feel free to modify it to either
-                    redirect to a controller or display whatever content you may choose.
+                    For searching in existing entries go to <g:link controller="tweet" action="list">Tweet List</g:link>.
+                </p>
+                <p class="text-body-secondary">
+                    To add new tweets go to <g:link controller="tweet" action="add">Add Tweet</g:link>.
                 </p>
             </div>
 

@@ -5,7 +5,7 @@ info:
     grailsVersion: '@info.app.grailsVersion@'
 grails:
   codegen:
-    defaultPackage: grails.plugins.elasticsearch
+    defaultPackage: grails.plugins.elasticsearch.twitter
   profile: web
   assets:
     storagePath: ''

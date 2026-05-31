@@ -1,4 +1,4 @@
-package grails.plugins.elasticsearch
+package grails.plugins.elasticsearch.twitter
 
 class UrlMappings {
     static mappings = {

@@ -1,8 +1,9 @@
-package grails.plugins.search.example
+package grails.plugins.elasticsearch.twitter
 
 class User {
     static mapping = {
         table 'users'
+        password nullable: true, blank: true
     }
 
     static searchable = {
@@ -25,7 +26,7 @@ class User {
 
     String lastname
     String firstname
-    String password
+    String password = ''
     String activity = 'Evildoer'
     String someThings = 'something'
     ArrayList<String> listOfThings = ['this', 'that', 'and this']

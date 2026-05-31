@@ -1,4 +1,4 @@
-package grails.plugins.search.example
+package grails.plugins.elasticsearch.twitter
 
 import groovy.transform.CompileStatic
 
