@@ -1,11 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>All tweets</title>
+    <title>Global Search Results</title>
     <meta name="layout" content="main"/>
 </head>
 
 <body>
+<div style="display: flex; flex-direction: row; gap: 10px; margin: 10px 0">
+    <span>Search results for query:</span>
+</div>
 <div class="table-responsive">
     <table class="table table-sm table-striped table-hover" data-sortable="true">
         <thead class="table-light small">
@@ -16,7 +19,7 @@
                 role="button"
                 tabindex="0"
                 aria-label="Sort by name">
-                Name <span class="sort-hint" aria-hidden="true"></span>
+                Domain Object Type <span class="sort-hint" aria-hidden="true"></span>
             </th>
             <th scope="col"
                 class="text-body-secondary pe-0 sortable"
@@ -24,7 +27,7 @@
                 role="button"
                 tabindex="0"
                 aria-label="Sort by user">
-                <span class="sort-hint" aria-hidden="true"></span>User
+                <span class="sort-hint" aria-hidden="true"></span>Entity
             </th>
             <th scope="col"
                 class="text-body-secondary ps-0 fw-semibold"
@@ -32,21 +35,21 @@
                 tabindex="0"
                 aria-label="Sort by version"
             >
-                Message<span class="sort-hint" aria-hidden="true"></span>
+                Score<span class="sort-hint" aria-hidden="true"></span>
             </th>
         </tr>
         </thead>
         <tbody class="small">
-        <g:each var="tweet" in="${tweets}">
+        <g:each var="hit" in="${hits.searchResults}">
             <tr %{-- data-name="${pluginName}" data-version="${tweet.plugin.version}" data-order="${tweet.order}" --}%>
                 <td class="text-truncate">
-                    ${tweet.dateCreated}
+                    ${hit.class.simpleName}
                 </td>
                 <td class="text-body-secondary" style="font-variant-numeric: tabular-nums;">
-                    ${tweet.user.lastname}, ${tweet.user.firstname}
+                    ${hit.toString()}
                 </td>
                 <td style="font-variant-numeric: tabular-nums;">
-                    ${tweet.message}
+                    ${hits.scores["${hit.id}"]}
                 </td>
             </tr>
         </g:each>

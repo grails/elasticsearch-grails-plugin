@@ -4,6 +4,7 @@ class User {
     static mapping = {
         table 'users'
         password nullable: true, blank: true
+        id generator: 'sequence'
     }
 
     static searchable = {
@@ -30,4 +31,10 @@ class User {
     String activity = 'Evildoer'
     String someThings = 'something'
     ArrayList<String> listOfThings = ['this', 'that', 'and this']
+
+
+    @Override
+    String toString() {
+        return "$lastname, $firstname"
+    }
 }

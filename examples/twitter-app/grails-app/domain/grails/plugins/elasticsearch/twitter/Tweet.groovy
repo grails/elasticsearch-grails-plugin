@@ -5,6 +5,10 @@ class Tweet {
         message boost: 2.0
     }
 
+    static mapping = {
+        id generator: 'sequence'
+    }
+
     static belongsTo = [
         user: User
     ]
@@ -19,4 +23,10 @@ class Tweet {
 
     String message = ''
     Date dateCreated = new Date()
+
+
+    @Override
+    String toString() {
+        return "$dateCreated: $message"
+    }
 }

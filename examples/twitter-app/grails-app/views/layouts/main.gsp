@@ -16,6 +16,13 @@
         <a class="navbar-brand d-flex align-items-center" href="${request.contextPath}/">
             <asset:image class="w-75" src="grails.svg" alt="Grails Logo"/>
         </a>
+        <div>
+            <g:form controller="search" action="searchEntities">
+                <div style="display: flex; flex-direction: row; gap: 10px; margin: 10px 0">
+                    <span>Search everywhere (tweets, users, tags):</span><g:textField name="query"/><g:submitButton name="search" value="Search"/>
+                </div>
+            </g:form>
+        </div>
     </div>
 </nav>
 
