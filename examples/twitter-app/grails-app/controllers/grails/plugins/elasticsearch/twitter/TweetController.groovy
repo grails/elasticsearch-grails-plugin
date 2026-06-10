@@ -27,8 +27,10 @@ class TweetController {
         if (!params.query) {
             redirect action: 'list'
         }
-        // perform global search
-        def searchHits = elasticSearchService.search("${params.query}", [score: true])
-        render(view: '/search/searchResults', model: [tweets: []])
+        // perform domain class search
+        def searchHits = Tweet.search("${params.query}", [score: true])
+        // load full tweets from database to obtain user and tags, too
+        def tweets = searchHits.searchResults.collect { Tweet.load(it.id) }
+        render(view: 'list', model: [tweets: tweets])
     }
 }

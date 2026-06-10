@@ -6,6 +6,13 @@
 </head>
 
 <body>
+<div>
+    <g:form controller="tweet" action="search">
+        <div style="display: flex; flex-direction: row; gap: 10px; margin: 10px 0">
+            <span>Search tweets:</span><g:textField name="query"/><g:submitButton name="search" value="Search"/>
+        </div>
+    </g:form>
+</div>
 <div class="table-responsive">
     <table class="table table-sm table-striped table-hover" data-sortable="true">
         <thead class="table-light small">
