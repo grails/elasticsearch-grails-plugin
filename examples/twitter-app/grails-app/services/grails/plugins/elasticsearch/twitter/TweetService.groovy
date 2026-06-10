@@ -6,6 +6,6 @@ import grails.gorm.transactions.Transactional
 class TweetService {
 
     def addTweet(Tweet tweet) {
-        tweet.save(flush: true)
+        tweet.save(flush: true, failOnError: true)
     }
 }

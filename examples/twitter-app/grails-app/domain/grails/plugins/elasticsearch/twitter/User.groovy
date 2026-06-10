@@ -3,15 +3,15 @@ package grails.plugins.elasticsearch.twitter
 class User {
     static mapping = {
         table 'users'
+        firstname unique: true
         password nullable: true, blank: true
         id generator: 'sequence'
     }
 
     static searchable = {
-        only = ['lastname', 'firstname', 'activity']
+        only = ['lastname', 'firstname']
         lastname boost: 20
-        firstname boost: 15, index: 'true'
-        someThings index: 'false'
+        firstname boost: 15, index: 'true' // This leads to a keyword field in index mapping supporting exact matches only
         tweets component: true
     }
 
@@ -28,10 +28,6 @@ class User {
     String lastname
     String firstname
     String password = ''
-    String activity = 'Evildoer'
-    String someThings = 'something'
-    ArrayList<String> listOfThings = ['this', 'that', 'and this']
-
 
     @Override
     String toString() {

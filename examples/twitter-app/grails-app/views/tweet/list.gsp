@@ -12,11 +12,11 @@
         <tr>
             <th scope="col"
                 class="text-body-secondary ps-0 fw-semibold sortable"
-                data-sort-key="name"
+                data-sort-key="date"
                 role="button"
                 tabindex="0"
-                aria-label="Sort by name">
-                Name <span class="sort-hint" aria-hidden="true"></span>
+                aria-label="Sort by date">
+                Date <span class="sort-hint" aria-hidden="true"></span>
             </th>
             <th scope="col"
                 class="text-body-secondary pe-0 sortable"
@@ -38,7 +38,7 @@
         </thead>
         <tbody class="small">
         <g:each var="tweet" in="${tweets}">
-            <tr %{-- data-name="${pluginName}" data-version="${tweet.plugin.version}" data-order="${tweet.order}" --}%>
+            <tr data-date="${tweet.dateCreated}" data-user="${tweet.user}">
                 <td class="text-truncate">
                     ${tweet.dateCreated}
                 </td>
@@ -58,5 +58,6 @@
         </tbody>
     </table>
 </div>
+<asset:javascript src="welcome.js"/>
 </body>
 </html>
