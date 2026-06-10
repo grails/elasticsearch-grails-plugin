@@ -46,7 +46,12 @@
                     ${tweet.user.lastname}, ${tweet.user.firstname}
                 </td>
                 <td style="font-variant-numeric: tabular-nums;">
-                    ${tweet.message}
+                    <div class="message">${tweet.message}</div>
+                    <div style="margin-top: 5px; ">
+                        <g:each in="${tweet.tags}" var="tag">
+                            <span class="tag">${tag.name}</span>
+                        </g:each>
+                    </div>
                 </td>
             </tr>
         </g:each>

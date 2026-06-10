@@ -7,7 +7,7 @@
 
 <body>
 <div style="display: flex; flex-direction: row; gap: 10px; margin: 10px 0">
-    <span>Search results for query:</span>
+    <span>Search results for query <code>${query}</code>:</span>
 </div>
 <div class="table-responsive">
     <table class="table table-sm table-striped table-hover" data-sortable="true">
@@ -46,7 +46,12 @@
                     ${hit.class.simpleName}
                 </td>
                 <td class="text-body-secondary" style="font-variant-numeric: tabular-nums;">
-                    ${hit.toString()}
+                    <g:if test="${hit.class.simpleName == 'Tag'}">
+                        <span class="tag">${hit.name}</span>
+                    </g:if>
+                    <g:else>
+                        ${hit.toString()}
+                    </g:else>
                 </td>
                 <td style="font-variant-numeric: tabular-nums;">
                     ${hits.scores["${hit.id}"]}

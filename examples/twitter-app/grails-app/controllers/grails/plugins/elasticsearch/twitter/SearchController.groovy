@@ -8,6 +8,6 @@ class SearchController {
     def searchEntities() {
         // perform global search
         def searchHits = params.query ? elasticSearchService.search("${params.query}", [score: true]) : new ElasticSearchResult()
-        render(view: 'searchResults', model: [hits: searchHits])
+        render(view: 'searchResults', model: [hits: searchHits, query: params.query])
     }
 }
