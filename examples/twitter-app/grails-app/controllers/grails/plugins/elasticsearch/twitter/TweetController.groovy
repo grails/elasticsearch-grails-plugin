@@ -1,7 +1,6 @@
 package grails.plugins.elasticsearch.twitter
 
 class TweetController {
-    def elasticSearchService
     def tweetService
 
     def index() {
@@ -27,10 +26,8 @@ class TweetController {
         if (!params.query) {
             redirect action: 'list'
         }
-        // perform domain class search
+        // perform domain class search, effectively only looks in message
         def searchHits = Tweet.search("${params.query}", [score: true])
-        // load full tweets from database to obtain user and tags, too
-        def tweets = searchHits.searchResults.collect { Tweet.load(it.id) }
-        render(view: 'list', model: [tweets: tweets])
+        render(view: 'list', model: [tweets: searchHits.searchResults])
     }
 }

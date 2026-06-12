@@ -40,6 +40,13 @@
         </tr>
         </thead>
         <tbody class="small">
+        <g:if test="${!hits.searchResults}">
+            <tr>
+                <td colspan="3" style="text-align: center; font-weight: bold; color: darkred">
+                    Sorry, your search yields no results...
+                </td>
+            </tr>
+        </g:if>
         <g:each var="hit" in="${hits.searchResults}">
             <tr %{-- data-name="${pluginName}" data-version="${tweet.plugin.version}" data-order="${tweet.order}" --}%>
                 <td class="text-truncate">

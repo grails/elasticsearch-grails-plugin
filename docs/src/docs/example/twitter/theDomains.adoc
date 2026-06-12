@@ -3,70 +3,103 @@
 
 [source, groovy]
 ----
+package grails.plugins.elasticsearch.twitter
+
 class Tweet {
-  static searchable = {
-    message boost:2.0
-  }
+    static searchable = {
+        message boost: 2.0
+    }
 
-  static belongsTo = [
-          user:User
-  ]
+    static mapping = {
+        id generator: 'sequence'
+    }
 
-  static hasMany = [
-          tags:Tag
-  ]
+    static belongsTo = [
+        user: User
+    ]
 
-  static constraints = {
-    tags nullable:true, cascade:'save, update'
-  }
+    static hasMany = [
+        tags: Tag
+    ]
 
-  String message = ''
-  Date dateCreated = new Date()
+    static constraints = {
+        tags nullable: true
+    }
+
+    String message = ''
+    Date dateCreated = new Date()
+
+
+    @Override
+    String toString() {
+        return "$dateCreated: $message"
+    }
 }
 
 ----
 
 [source, groovy]
 ----
+package grails.plugins.elasticsearch.twitter
+
 class User {
-  static searchable = {
-    except = 'password'
-    lastname boost:20
-    firstname boost:15, index:'true'
-    listOfThings index:'false'
-    someThings index:'false'
-    tweets component:true
-  }
+    static mapping = {
+        table 'users'
+        firstname unique: true
+        password nullable: true, blank: true
+        id generator: 'sequence'
+    }
 
-  static constraints = {
-    tweets cascade:'all'
-  }
-  static hasMany = [
-          tweets:Tweet
-  ]
-  static mappedBy = [
-          tweets:'user'
-  ]
+    static searchable = {
+        only = ['lastname', 'firstname']
+        lastname boost: 20
+        firstname boost: 15, index: 'true' // This leads to a keyword field in index mapping supporting exact matches only
+        tweets component: true
+    }
 
-  String lastname
-  String firstname
-  String password
-  String activity = 'Evildoer'
-  String someThings = 'something'
-  ArrayList<String> listOfThings = ['this', 'that', 'andthis']
+    static constraints = {
+        tweets cascade: 'all'
+    }
+    static hasMany = [
+        tweets: Tweet
+    ]
+    static mappedBy = [
+        tweets: 'user'
+    ]
+
+    String lastname
+    String firstname
+    String password = ''
+
+    @Override
+    String toString() {
+        return "$lastname, $firstname"
+    }
 }
 
 ----
 
 [source, groovy]
 ----
+package grails.plugins.elasticsearch.twitter
+
 class Tag {
-  static searchable = {
-    except=['boostValue']
-  }
+    static searchable = {
+        except = ['boostValue']
+        name multi_field: true, boost: 5
+    }
 
-  String name
-  Integer boostValue = 1
+    static mapping = {
+        id generator: 'sequence'
+    }
+
+    String name
+    Integer boostValue = 5
+
+
+    @Override
+    String toString() {
+        return name
+    }
 }
-
 ----

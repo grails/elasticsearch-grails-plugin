@@ -1,84 +1,64 @@
 [[theController]]
-==== The Controller
+==== The Controllers
 
-* *A action triggering indexation*
-
-`ElasticSearchController` (`testCaseService` is just dealing with GORM instructions):
+Our `SearchController` simply performs a global search on all domain objects and renders the results in a unified table:
 
 [source, groovy]
 ----
-class ElasticSearchController {
-  def elasticSearchService
-  def testCaseService
+package grails.plugins.elasticsearch.twitter
 
-  def postTweet = {
-    if(!params.user?.id) {
-      flash.notice = "No user selected."
-      redirect(action: 'index')
-      return
-    }
-    User u = User.get(params.user.id)
-    if (!u) {
-      flash.notice = "User not found"
-      redirect(action: 'index')
-      return
-    }
-    // Create tweet
-    testCaseService.addTweet(params.tweet?.message, u, params.tags)
+import grails.plugins.elasticsearch.ElasticSearchResult
 
-    flash.notice = "Tweet posted"
-    redirect(action: 'index')
-  }
+class SearchController {
+    def elasticSearchService
+
+    def searchEntities() {
+        // perform global search
+        def searchHits = params.query ? elasticSearchService.search("${params.query}", [score: true]) : new ElasticSearchResult()
+        render(view: 'searchResults', model: [hits: searchHits, query: params.query ?: '<empty search>'])
+    }
 }
 
 ----
 
-With this code (considering that there are already `User` in the database), new Tweets will be indexed automatically,
-and corresponding `User` indexed documents will be updated since we have set the `tweets` association as component.
-
-* *Searching for Tweets*
+The `TweetController` allows us to post new tweets using the existing users and tags. New tweets will be indexed automatically,
+and corresponding `User` indexed documents will be updated since we have set the `tweets` association as a component.
+We can also search on the Tweet domain object for tweets with certain tags or from specific users.
 
 [source, groovy]
 ----
-def searchForUserTweets = {
-    def tweets = Tweet.search("${params.message.search}").searchResults
-    def tweetsMsg = 'Messages : '
-    tweets.each {
-      tweetsMsg += "<br />Tweet from ${it.user?.firstname} ${it.user?.lastname} : ${it.message} "
-      tweetsMsg += "(tags : ${it.tags?.collect{t -> t.name}})"
+package grails.plugins.elasticsearch.twitter
+
+class TweetController {
+    def tweetService
+
+    def index() {
+        redirect action: 'list'
     }
-    flash.notice = tweetsMsg
-    redirect(action: 'index')
+
+    def add() {
+        [ users: User.list(), tags: Tag.list()]
+    }
+
+    def post() {
+        def tweet = new Tweet()
+        bindData(tweet, params)
+        tweetService.addTweet(tweet)
+        redirect action: 'list'
+    }
+
+    def list() {
+        return [tweets: Tweet.findAll()]
+    }
+
+    def search() {
+        if (!params.query) {
+            redirect action: 'list'
+        }
+        // perform domain class search, effectively only looks in message
+        def searchHits = Tweet.search("${params.query}", [score: true])
+        render(view: 'list', model: [tweets: searchHits.searchResults])
+    }
 }
-
 ----
 
-* *Searching for anything*
-
-[source, groovy]
-----
-def searchAll = {
-    def res = elasticSearchService.search("${params.query}").searchResults
-    def resMsg = '<strong>Global search result(s):</strong><br />'
-    res.each {
-      switch(it){
-        case Tag:
-          resMsg += "<strong>Tag</strong> ${it.name}<br />"
-          break
-        case Tweet:
-          resMsg += "<strong>Tweet</strong> \"${it.message}\" from ${it.user.firstname} ${it.user.lastname}<br />"
-          break
-        case User:
-          resMsg += "<strong>User</strong> ${it.firstname} ${it.lastname}<br />"
-          break
-        default:
-          resMsg += "<strong>Other</strong> ${it}<br />"
-          break
-      }
-
-    }
-    flash.notice = resMsg
-    redirect(action:'index')
- }
-
-----
