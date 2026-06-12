@@ -58,6 +58,9 @@ environments:
         mode: local
         hosts:
           - {host: localhost, port: 9200}
+        ssl.enabled: true
+        username: elastic
+        password: twitter-app
         transport.sniff: true
       bulkIndexOnStartup: true
       datastoreImpl: hibernateDatastore

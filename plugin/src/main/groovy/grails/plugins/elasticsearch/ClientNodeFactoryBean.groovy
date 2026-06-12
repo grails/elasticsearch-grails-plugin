@@ -21,12 +21,16 @@ import org.apache.http.auth.AuthScope
 import org.apache.http.auth.UsernamePasswordCredentials
 import org.apache.http.client.CredentialsProvider
 import org.apache.http.client.config.RequestConfig
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy
 import org.apache.http.impl.client.BasicCredentialsProvider
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder
+import org.apache.http.ssl.SSLContextBuilder
 import org.elasticsearch.client.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.FactoryBean
+
+import javax.net.ssl.SSLContext
 
 class ClientNodeFactoryBean implements FactoryBean {
 
@@ -40,16 +44,15 @@ class ClientNodeFactoryBean implements FactoryBean {
         int connectTimeout = 2
         int socketTimeout = 30
 
-        RestClientBuilder builder = null
+        String connectionScheme = elasticSearchContextHolder.config.client.ssl.enabled ? 'https' : null
+        RestClientBuilder builder = RestClient.builder(new HttpHost('localhost', 9200, connectionScheme))
 
         // Configure transport addresses
-        if (!elasticSearchContextHolder.config.client.hosts) {
-            builder = RestClient.builder(new HttpHost('localhost', 9200))
-        } else {
+        if (elasticSearchContextHolder.config.client.hosts) {
             List<HttpHost> httpHostList = []
             elasticSearchContextHolder.config.client.hosts.each {
                 int port = (it.port instanceof String)? Integer.valueOf(it.port) : it.port
-                httpHostList << new HttpHost("${it.host}", port)
+                httpHostList << new HttpHost("${it.host}", port, connectionScheme)
             }
             HttpHost[] httpHosts = httpHostList
             builder = RestClient.builder(httpHosts)
@@ -62,6 +65,11 @@ class ClientNodeFactoryBean implements FactoryBean {
             builder.setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
                 @Override
                 HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
+                    if (elasticSearchContextHolder.config.client.ssl.enabled) {
+                        SSLContext sslContext = SSLContextBuilder.create()
+                                .loadTrustMaterial(new TrustSelfSignedStrategy()).build()
+                        httpClientBuilder.setSSLContext(sslContext)
+                    }
                     return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider)
                 }
             })
@@ -81,7 +89,7 @@ class ClientNodeFactoryBean implements FactoryBean {
                     LOG.debug "Set REST client socket timeout to ${socketTimeout} seconds"
                 }
                 return requestConfigBuilder.setConnectTimeout(connectTimeout * 1000).setSocketTimeout(socketTimeout * 1000)
-                        .setConnectionRequestTimeout(0);
+                        .setConnectionRequestTimeout(0)
             }
         })
         def highLevelClientBuilder = new RestHighLevelClientBuilder(builder.build())
