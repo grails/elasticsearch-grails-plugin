@@ -3,8 +3,6 @@ package grails.plugins.elasticsearch.twitter
 class Tweet {
     static searchable = {
         message boost: 2.0
-        user component: true
-        tags component: true
     }
 
     static mapping = {
