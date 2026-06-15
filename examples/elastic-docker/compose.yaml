@@ -1,0 +1,40 @@
+# Example of a docker stack to use with your Grails application using grails-elasticsearch
+services:
+  elastic:
+    container_name: es01
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.29
+    environment:
+      - node.name=es01
+      - cluster.name=naomi-es
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - 9200:9200
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - searchdata:/usr/share/elasticsearch/data
+    networks:
+      - default-network
+    restart: unless-stopped
+  kibana:
+    container_name: ki
+    image: docker.elastic.co/kibana/kibana:7.17.29
+    environment:
+      SERVER_NAME: elastic
+      ELASTICSEARCH_HOSTS: http://elastic:9200
+    ports:
+      - 5601:5601
+    networks:
+      - default-network
+    depends_on:
+      - elastic
+networks:
+  default-network:
+    driver: bridge
+    internal: false
+volumes:
+  searchdata:

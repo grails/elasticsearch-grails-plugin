@@ -1,6 +1,10 @@
 [[twitter]]
 === Twitter
 
+Here we build a simple app with a bunch of users, that can post short messages. The messages can be tagged to provide more search options.
+
+The full, working code can be found in https://github.com/grails-plugins/grails-elasticsearch/tree/5.0.x/examples[examples] in the plugin repository.
+
 include::twitter/theDomains.adoc[]
 
 include::twitter/theController.adoc[]
