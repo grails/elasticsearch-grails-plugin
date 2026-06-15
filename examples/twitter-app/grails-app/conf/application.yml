@@ -58,7 +58,12 @@ environments:
         mode: local
         hosts:
           - {host: localhost, port: 9200}
-        ssl.enabled: true
+        ssl:
+          enabled: true
+          trust: self-signed #trust-store
+          truststore:
+            file: ../elastic-docker/elasticsearch-truststored.jks
+            password: super_secure
         username: elastic
         password: twitter-app
         transport.sniff: true

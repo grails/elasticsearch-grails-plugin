@@ -21,6 +21,7 @@ import org.apache.http.auth.AuthScope
 import org.apache.http.auth.UsernamePasswordCredentials
 import org.apache.http.client.CredentialsProvider
 import org.apache.http.client.config.RequestConfig
+import org.apache.http.conn.ssl.TrustAllStrategy
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy
 import org.apache.http.impl.client.BasicCredentialsProvider
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder
@@ -66,9 +67,7 @@ class ClientNodeFactoryBean implements FactoryBean {
                 @Override
                 HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
                     if (elasticSearchContextHolder.config.client.ssl.enabled) {
-                        SSLContext sslContext = SSLContextBuilder.create()
-                                .loadTrustMaterial(new TrustSelfSignedStrategy()).build()
-                        httpClientBuilder.setSSLContext(sslContext)
+                        configureSSL(httpClientBuilder)
                     }
                     return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider)
                 }
@@ -98,33 +97,26 @@ class ClientNodeFactoryBean implements FactoryBean {
         LOG.debug 'Initialized Elasticsearch RestClient'
 
         return restHighLevelClient
+    }
 
-        /*
-        final CredentialsProvider credentialsProvider = new BasicCredentialsProvider()
-        credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(elasticSearchContextHolder.config.client.username, elasticSearchContextHolder.config.client.password))
-        println "Initializing Elasticsearch RestClient"
-        RestClientBuilder builder = RestClient
-                .builder(new HttpHost(elasticSearchContextHolder.config.client.host, 9243, "https"))
-                .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
-            @Override
-            HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
-                return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider)
+    // TODO: check further ssl configuration options
+    private void configureSSL(HttpAsyncClientBuilder httpClientBuilder) {
+        SSLContextBuilder sslContextBuilder = SSLContextBuilder.create()
+        if (elasticSearchContextHolder.config.client.ssl.trust == 'all') {
+            sslContextBuilder.loadTrustMaterial(new TrustAllStrategy())
+        }
+        if (elasticSearchContextHolder.config.client.ssl.trust == 'self-signed') {
+            sslContextBuilder.loadTrustMaterial(new TrustSelfSignedStrategy())
+        }
+        if (elasticSearchContextHolder.config.client.ssl.trust == 'trust-store') {
+            def trustStoreFile = elasticSearchContextHolder.config.client.ssl.truststore.file as File
+            def trustStorePassword = elasticSearchContextHolder.config.client.ssl.truststore.password as String
+            if (!trustStoreFile || !trustStoreFile.canRead() || ! trustStorePassword) {
+                throw new IllegalArgumentException("If you set elasticsearch.client.ssl.trust to 'trust-store' you must provide a truststore file and a truststore password!")
             }
-        })
-        builder.setMaxRetryTimeoutMillis(timeout * 1000)
-        builder.setRequestConfigCallback(new RestClientBuilder.RequestConfigCallback() {
-            @Override
-            RequestConfig.Builder customizeRequestConfig(RequestConfig.Builder requestConfigBuilder) {
-                return requestConfigBuilder.setConnectTimeout(timeout * 1000).setSocketTimeout(timeout * 1000)
-                        .setConnectionRequestTimeout(0);
-            }
-        })
-
-        restClient = new RestHighLevelClient(builder)
-        println "Initialized Elasticsearch RestClient"
-
-        return restClient
-        */
+            sslContextBuilder.loadTrustMaterial(trustStoreFile, trustStorePassword.toCharArray())
+        }
+        httpClientBuilder.setSSLContext(sslContextBuilder.build())
     }
 
     @Override
