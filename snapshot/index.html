@@ -2559,7 +2559,7 @@ from ElasticSearch, some fields that are not supposed to be null, may still be n
     <span class="comment">// ...</span>
 }
 
-<span class="type">class</span> <span class="class">Tweet</span> {
+<span class="type">class</span> <span class="class">grails</span>.plugins.search.example.Tweet {
     <span class="directive">static</span> searchable = {
         message <span class="key">boost</span>:<span class="float">2.0</span>
     }
@@ -2578,7 +2578,7 @@ For example, considered the following domain:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="type">class</span> <span class="class">User</span> {
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="type">class</span> <span class="class">grails</span>.plugins.search.example.User {
     <span class="directive">static</span> searchable = {
         userPreferences <span class="key">component</span>:<span class="predefined-constant">true</span>
     }
@@ -3794,172 +3794,178 @@ elasticSearchAdminService.refresh() <span class="comment">// Ensure that the 3 p
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="twitter"><a class="anchor" href="#twitter"></a>Twitter</h3>
+<div class="paragraph">
+<p>Here we build a simple app with a bunch of users, that can post short messages. The messages can be tagged to provide more search options.</p>
+</div>
+<div class="paragraph">
+<p>The full, working code can be found in <a href="https://github.com/grails-plugins/grails-elasticsearch/tree/5.0.x/examples">examples</a> in the plugin repository.</p>
+</div>
 <div class="sect3">
 <h4 id="theDomains"><a class="anchor" href="#theDomains"></a>The Domains</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="type">class</span> <span class="class">Tweet</span> {
-  <span class="directive">static</span> searchable = {
-    message <span class="key">boost</span>:<span class="float">2.0</span>
-  }
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> grails.plugins.elasticsearch.twitter
 
-  <span class="directive">static</span> belongsTo = [
-          <span class="key">user</span>:User
-  ]
+<span class="type">class</span> <span class="class">Tweet</span> {
+    <span class="directive">static</span> searchable = {
+        message <span class="key">boost</span>: <span class="float">2.0</span>
+    }
 
-  <span class="directive">static</span> hasMany = [
-          <span class="key">tags</span>:Tag
-  ]
+    <span class="directive">static</span> mapping = {
+        id <span class="key">generator</span>: <span class="string"><span class="delimiter">'</span><span class="content">sequence</span><span class="delimiter">'</span></span>
+    }
 
-  <span class="directive">static</span> constraints = {
-    tags <span class="key">nullable</span>:<span class="predefined-constant">true</span>, <span class="key">cascade</span>:<span class="string"><span class="delimiter">'</span><span class="content">save, update</span><span class="delimiter">'</span></span>
-  }
+    <span class="directive">static</span> belongsTo = [
+        <span class="key">user</span>: User
+    ]
 
-  <span class="predefined-type">String</span> message = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>
-  <span class="predefined-type">Date</span> dateCreated = <span class="keyword">new</span> <span class="predefined-type">Date</span>()
+    <span class="directive">static</span> hasMany = [
+        <span class="key">tags</span>: Tag
+    ]
+
+    <span class="directive">static</span> constraints = {
+        tags <span class="key">nullable</span>: <span class="predefined-constant">true</span>
+    }
+
+    <span class="predefined-type">String</span> message = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>
+    <span class="predefined-type">Date</span> dateCreated = <span class="keyword">new</span> <span class="predefined-type">Date</span>()
+
+
+    <span class="annotation">@Override</span>
+    <span class="predefined-type">String</span> toString() {
+        <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">$</span>dateCreated</span><span class="content">: </span><span class="inline"><span class="inline-delimiter">$</span>message</span><span class="delimiter">&quot;</span></span>
+    }
 }</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="type">class</span> <span class="class">User</span> {
-  <span class="directive">static</span> searchable = {
-    except = <span class="string"><span class="delimiter">'</span><span class="content">password</span><span class="delimiter">'</span></span>
-    lastname <span class="key">boost</span>:<span class="integer">20</span>
-    firstname <span class="key">boost</span>:<span class="integer">15</span>, <span class="key">index</span>:<span class="string"><span class="delimiter">'</span><span class="content">true</span><span class="delimiter">'</span></span>
-    listOfThings <span class="key">index</span>:<span class="string"><span class="delimiter">'</span><span class="content">false</span><span class="delimiter">'</span></span>
-    someThings <span class="key">index</span>:<span class="string"><span class="delimiter">'</span><span class="content">false</span><span class="delimiter">'</span></span>
-    tweets <span class="key">component</span>:<span class="predefined-constant">true</span>
-  }
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> grails.plugins.elasticsearch.twitter
 
-  <span class="directive">static</span> constraints = {
-    tweets <span class="key">cascade</span>:<span class="string"><span class="delimiter">'</span><span class="content">all</span><span class="delimiter">'</span></span>
-  }
-  <span class="directive">static</span> hasMany = [
-          <span class="key">tweets</span>:Tweet
-  ]
-  <span class="directive">static</span> mappedBy = [
-          <span class="key">tweets</span>:<span class="string"><span class="delimiter">'</span><span class="content">user</span><span class="delimiter">'</span></span>
-  ]
+<span class="type">class</span> <span class="class">User</span> {
+    <span class="directive">static</span> mapping = {
+        table <span class="string"><span class="delimiter">'</span><span class="content">users</span><span class="delimiter">'</span></span>
+        firstname <span class="key">unique</span>: <span class="predefined-constant">true</span>
+        password <span class="key">nullable</span>: <span class="predefined-constant">true</span>, <span class="key">blank</span>: <span class="predefined-constant">true</span>
+        id <span class="key">generator</span>: <span class="string"><span class="delimiter">'</span><span class="content">sequence</span><span class="delimiter">'</span></span>
+    }
 
-  <span class="predefined-type">String</span> lastname
-  <span class="predefined-type">String</span> firstname
-  <span class="predefined-type">String</span> password
-  <span class="predefined-type">String</span> activity = <span class="string"><span class="delimiter">'</span><span class="content">Evildoer</span><span class="delimiter">'</span></span>
-  <span class="predefined-type">String</span> someThings = <span class="string"><span class="delimiter">'</span><span class="content">something</span><span class="delimiter">'</span></span>
-  <span class="predefined-type">ArrayList</span>&lt;<span class="predefined-type">String</span>&gt; listOfThings = [<span class="string"><span class="delimiter">'</span><span class="content">this</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">that</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">andthis</span><span class="delimiter">'</span></span>]
+    <span class="directive">static</span> searchable = {
+        only = [<span class="string"><span class="delimiter">'</span><span class="content">lastname</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">firstname</span><span class="delimiter">'</span></span>]
+        lastname <span class="key">boost</span>: <span class="integer">20</span>
+        firstname <span class="key">boost</span>: <span class="integer">15</span>, <span class="key">index</span>: <span class="string"><span class="delimiter">'</span><span class="content">true</span><span class="delimiter">'</span></span> <span class="comment">// This leads to a keyword field in index mapping supporting exact matches only</span>
+        tweets <span class="key">component</span>: <span class="predefined-constant">true</span>
+    }
+
+    <span class="directive">static</span> constraints = {
+        tweets <span class="key">cascade</span>: <span class="string"><span class="delimiter">'</span><span class="content">all</span><span class="delimiter">'</span></span>
+    }
+    <span class="directive">static</span> hasMany = [
+        <span class="key">tweets</span>: Tweet
+    ]
+    <span class="directive">static</span> mappedBy = [
+        <span class="key">tweets</span>: <span class="string"><span class="delimiter">'</span><span class="content">user</span><span class="delimiter">'</span></span>
+    ]
+
+    <span class="predefined-type">String</span> lastname
+    <span class="predefined-type">String</span> firstname
+    <span class="predefined-type">String</span> password = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>
+
+    <span class="annotation">@Override</span>
+    <span class="predefined-type">String</span> toString() {
+        <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">$</span>lastname</span><span class="content">, </span><span class="inline"><span class="inline-delimiter">$</span>firstname</span><span class="delimiter">&quot;</span></span>
+    }
 }</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="type">class</span> <span class="class">Tag</span> {
-  <span class="directive">static</span> searchable = {
-    except=[<span class="string"><span class="delimiter">'</span><span class="content">boostValue</span><span class="delimiter">'</span></span>]
-  }
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> grails.plugins.elasticsearch.twitter
 
-  <span class="predefined-type">String</span> name
-  <span class="predefined-type">Integer</span> boostValue = <span class="integer">1</span>
+<span class="type">class</span> <span class="class">Tag</span> {
+    <span class="directive">static</span> searchable = {
+        except = [<span class="string"><span class="delimiter">'</span><span class="content">boostValue</span><span class="delimiter">'</span></span>]
+        name <span class="key">multi_field</span>: <span class="predefined-constant">true</span>, <span class="key">boost</span>: <span class="integer">5</span>
+    }
+
+    <span class="directive">static</span> mapping = {
+        id <span class="key">generator</span>: <span class="string"><span class="delimiter">'</span><span class="content">sequence</span><span class="delimiter">'</span></span>
+    }
+
+    <span class="predefined-type">String</span> name
+    <span class="predefined-type">Integer</span> boostValue = <span class="integer">5</span>
+
+
+    <span class="annotation">@Override</span>
+    <span class="predefined-type">String</span> toString() {
+        <span class="keyword">return</span> name
+    }
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="theController"><a class="anchor" href="#theController"></a>The Controller</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>A action triggering indexation</strong></p>
-</li>
-</ul>
-</div>
+<h4 id="theController"><a class="anchor" href="#theController"></a>The Controllers</h4>
 <div class="paragraph">
-<p><code>ElasticSearchController</code> (<code>testCaseService</code> is just dealing with GORM instructions):</p>
+<p>Our <code>SearchController</code> simply performs a global search on all domain objects and renders the results in a unified table:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="type">class</span> <span class="class">ElasticSearchController</span> {
-  <span class="keyword">def</span> elasticSearchService
-  <span class="keyword">def</span> testCaseService
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> grails.plugins.elasticsearch.twitter
 
-  <span class="keyword">def</span> postTweet = {
-    <span class="keyword">if</span>(!params.user?.id) {
-      flash.notice = <span class="string"><span class="delimiter">&quot;</span><span class="content">No user selected.</span><span class="delimiter">&quot;</span></span>
-      redirect(<span class="key">action</span>: <span class="string"><span class="delimiter">'</span><span class="content">index</span><span class="delimiter">'</span></span>)
-      <span class="keyword">return</span>
-    }
-    User u = User.get(params.user.id)
-    <span class="keyword">if</span> (!u) {
-      flash.notice = <span class="string"><span class="delimiter">&quot;</span><span class="content">User not found</span><span class="delimiter">&quot;</span></span>
-      redirect(<span class="key">action</span>: <span class="string"><span class="delimiter">'</span><span class="content">index</span><span class="delimiter">'</span></span>)
-      <span class="keyword">return</span>
-    }
-    <span class="comment">// Create tweet</span>
-    testCaseService.addTweet(params.tweet?.message, u, params.tags)
+<span class="keyword">import</span> <span class="include">grails.plugins.elasticsearch.ElasticSearchResult</span>
 
-    flash.notice = <span class="string"><span class="delimiter">&quot;</span><span class="content">Tweet posted</span><span class="delimiter">&quot;</span></span>
-    redirect(<span class="key">action</span>: <span class="string"><span class="delimiter">'</span><span class="content">index</span><span class="delimiter">'</span></span>)
-  }
+<span class="type">class</span> <span class="class">SearchController</span> {
+    <span class="keyword">def</span> elasticSearchService
+
+    <span class="keyword">def</span> <span class="function">searchEntities</span>() {
+        <span class="comment">// perform global search</span>
+        <span class="keyword">def</span> searchHits = params.query ? elasticSearchService.search(<span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">${</span>params.query<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span>, [<span class="key">score</span>: <span class="predefined-constant">true</span>]) : <span class="keyword">new</span> ElasticSearchResult()
+        render(<span class="key">view</span>: <span class="string"><span class="delimiter">'</span><span class="content">searchResults</span><span class="delimiter">'</span></span>, <span class="key">model</span>: [<span class="key">hits</span>: searchHits, <span class="key">query</span>: params.query ?: <span class="string"><span class="delimiter">'</span><span class="content">&lt;empty search&gt;</span><span class="delimiter">'</span></span>])
+    }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>With this code (considering that there are already <code>User</code> in the database), new Tweets will be indexed automatically,
-and corresponding <code>User</code> indexed documents will be updated since we have set the <code>tweets</code> association as component.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Searching for Tweets</strong></p>
-</li>
-</ul>
+<p>The <code>TweetController</code> allows us to post new tweets using the existing users and tags. New tweets will be indexed automatically,
+and corresponding <code>User</code> indexed documents will be updated since we have set the <code>tweets</code> association as a component.
+We can also search on the Tweet domain object for tweets with certain tags or from specific users.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">def</span> searchForUserTweets = {
-    <span class="keyword">def</span> tweets = Tweet.search(<span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">${</span>params.message.search<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span>).searchResults
-    <span class="keyword">def</span> tweetsMsg = <span class="string"><span class="delimiter">'</span><span class="content">Messages : </span><span class="delimiter">'</span></span>
-    tweets.each {
-      tweetsMsg += <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;br /&gt;Tweet from </span><span class="inline"><span class="inline-delimiter">${</span><span class="local-variable">it</span>.user?.firstname<span class="inline-delimiter">}</span></span><span class="content"> </span><span class="inline"><span class="inline-delimiter">${</span><span class="local-variable">it</span>.user?.lastname<span class="inline-delimiter">}</span></span><span class="content"> : </span><span class="inline"><span class="inline-delimiter">${</span><span class="local-variable">it</span>.message<span class="inline-delimiter">}</span></span><span class="content"> </span><span class="delimiter">&quot;</span></span>
-      tweetsMsg += <span class="string"><span class="delimiter">&quot;</span><span class="content">(tags : </span><span class="inline"><span class="inline-delimiter">${</span><span class="local-variable">it</span>.tags?.collect{t -&gt; t.name}<span class="inline-delimiter">}</span></span><span class="content">)</span><span class="delimiter">&quot;</span></span>
-    }
-    flash.notice = tweetsMsg
-    redirect(<span class="key">action</span>: <span class="string"><span class="delimiter">'</span><span class="content">index</span><span class="delimiter">'</span></span>)
-}</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Searching for anything</strong></p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">def</span> searchAll = {
-    <span class="keyword">def</span> res = elasticSearchService.search(<span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">${</span>params.query<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span>).searchResults
-    <span class="keyword">def</span> resMsg = <span class="string"><span class="delimiter">'</span><span class="content">&lt;strong&gt;Global search result(s):&lt;/strong&gt;&lt;br /&gt;</span><span class="delimiter">'</span></span>
-    res.each {
-      <span class="keyword">switch</span>(<span class="local-variable">it</span>){
-        <span class="keyword">case</span> <span class="key">Tag</span>:
-          resMsg += <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;strong&gt;Tag&lt;/strong&gt; </span><span class="inline"><span class="inline-delimiter">${</span><span class="local-variable">it</span>.name<span class="inline-delimiter">}</span></span><span class="content">&lt;br /&gt;</span><span class="delimiter">&quot;</span></span>
-          <span class="keyword">break</span>
-        <span class="keyword">case</span> <span class="key">Tweet</span>:
-          resMsg += <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;strong&gt;Tweet&lt;/strong&gt; </span><span class="char">\&quot;</span><span class="inline"><span class="inline-delimiter">${</span><span class="local-variable">it</span>.message<span class="inline-delimiter">}</span></span><span class="char">\&quot;</span><span class="content"> from </span><span class="inline"><span class="inline-delimiter">${</span><span class="local-variable">it</span>.user.firstname<span class="inline-delimiter">}</span></span><span class="content"> </span><span class="inline"><span class="inline-delimiter">${</span><span class="local-variable">it</span>.user.lastname<span class="inline-delimiter">}</span></span><span class="content">&lt;br /&gt;</span><span class="delimiter">&quot;</span></span>
-          <span class="keyword">break</span>
-        <span class="keyword">case</span> <span class="key">User</span>:
-          resMsg += <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;strong&gt;User&lt;/strong&gt; </span><span class="inline"><span class="inline-delimiter">${</span><span class="local-variable">it</span>.firstname<span class="inline-delimiter">}</span></span><span class="content"> </span><span class="inline"><span class="inline-delimiter">${</span><span class="local-variable">it</span>.lastname<span class="inline-delimiter">}</span></span><span class="content">&lt;br /&gt;</span><span class="delimiter">&quot;</span></span>
-          <span class="keyword">break</span>
-        <span class="keyword">default</span>:
-          resMsg += <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;strong&gt;Other&lt;/strong&gt; </span><span class="inline"><span class="inline-delimiter">${</span><span class="local-variable">it</span><span class="inline-delimiter">}</span></span><span class="content">&lt;br /&gt;</span><span class="delimiter">&quot;</span></span>
-          <span class="keyword">break</span>
-      }
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> grails.plugins.elasticsearch.twitter
 
+<span class="type">class</span> <span class="class">TweetController</span> {
+    <span class="keyword">def</span> tweetService
+
+    <span class="keyword">def</span> <span class="function">index</span>() {
+        redirect <span class="key">action</span>: <span class="string"><span class="delimiter">'</span><span class="content">list</span><span class="delimiter">'</span></span>
     }
-    flash.notice = resMsg
-    redirect(<span class="key">action</span>:<span class="string"><span class="delimiter">'</span><span class="content">index</span><span class="delimiter">'</span></span>)
- }</code></pre>
+
+    <span class="keyword">def</span> <span class="function">add</span>() {
+        [ <span class="key">users</span>: User.list(), <span class="key">tags</span>: Tag.list()]
+    }
+
+    <span class="keyword">def</span> <span class="function">post</span>() {
+        <span class="keyword">def</span> tweet = <span class="keyword">new</span> Tweet()
+        bindData(tweet, params)
+        tweetService.addTweet(tweet)
+        redirect <span class="key">action</span>: <span class="string"><span class="delimiter">'</span><span class="content">list</span><span class="delimiter">'</span></span>
+    }
+
+    <span class="keyword">def</span> <span class="function">list</span>() {
+        <span class="keyword">return</span> [<span class="key">tweets</span>: Tweet.findAll()]
+    }
+
+    <span class="keyword">def</span> <span class="function">search</span>() {
+        <span class="keyword">if</span> (!params.query) {
+            redirect <span class="key">action</span>: <span class="string"><span class="delimiter">'</span><span class="content">list</span><span class="delimiter">'</span></span>
+        }
+        <span class="comment">// perform domain class search, effectively only looks in message</span>
+        <span class="keyword">def</span> searchHits = Tweet.search(<span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">${</span>params.query<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span>, [<span class="key">score</span>: <span class="predefined-constant">true</span>])
+        render(<span class="key">view</span>: <span class="string"><span class="delimiter">'</span><span class="content">list</span><span class="delimiter">'</span></span>, <span class="key">model</span>: [<span class="key">tweets</span>: searchHits.searchResults])
+    }
+}</code></pre>
 </div>
 </div>
 </div>
@@ -4177,7 +4183,7 @@ and corresponding <code>User</code> indexed documents will be updated since we h
 <div id="footer">
 <div id="footer-text">
 Version 5.0.1-SNAPSHOT<br>
-Last updated 2026-05-27 06:57:55 UTC
+Last updated 2026-06-16 11:29:13 UTC
 </div>
 </div>
 </body>
