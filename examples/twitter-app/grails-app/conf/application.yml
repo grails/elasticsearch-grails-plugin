@@ -59,7 +59,8 @@ environments:
         hosts:
           - {host: localhost, port: 9200}
         ssl:
-          enabled: true
+          # we disable SSL by default for easier CI setups
+          enabled: false # true
           trust: self-signed #trust-store
           truststore:
             file: ../elastic-docker/elasticsearch-truststored.jks
