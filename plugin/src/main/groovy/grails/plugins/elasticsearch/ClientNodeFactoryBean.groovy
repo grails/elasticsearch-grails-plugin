@@ -31,8 +31,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.FactoryBean
 
-import javax.net.ssl.SSLContext
-
 class ClientNodeFactoryBean implements FactoryBean {
 
     private static final Logger LOG = LoggerFactory.getLogger(this)
@@ -99,7 +97,6 @@ class ClientNodeFactoryBean implements FactoryBean {
         return restHighLevelClient
     }
 
-    // TODO: check further ssl configuration options
     private void configureSSL(HttpAsyncClientBuilder httpClientBuilder) {
         SSLContextBuilder sslContextBuilder = SSLContextBuilder.create()
         if (elasticSearchContextHolder.config.client.ssl.trust == 'all') {
