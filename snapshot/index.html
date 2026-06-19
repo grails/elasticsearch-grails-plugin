@@ -551,6 +551,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#overriding-spring-boot-elasticsearch-version">Overriding Spring Boot elasticsearch version</a></li>
 <li><a href="#default-configuration-script">Default configuration script</a></li>
 <li><a href="#client-mode">Client mode</a></li>
+<li><a href="#security-and-ssl">Security and SSL</a></li>
 <li><a href="#mapping-migration-properties">Mapping Migration properties</a></li>
 <li><a href="#dynamic-method-injection">Dynamic Method Injection</a></li>
 <li><a href="#others-properties">Others properties</a></li>
@@ -1574,7 +1575,7 @@ ext[<span class="string"><span class="delimiter">'</span><span class="content">e
   <span class="comment">/**
    * Date formats used by the unmarshaller of the JSON responses
    */</span>
-  date.formats = [<span class="string"><span class="delimiter">&quot;</span><span class="content">yyyy-MM-dd'T'HH:mm:ss'Z'</span><span class="delimiter">&quot;</span></span>]
+  date.formats = [<span class="string"><span class="delimiter">&quot;</span><span class="content">yyyy-MM-dd'T'HH:mm:ss.S'Z'</span><span class="delimiter">&quot;</span></span>]
 
   <span class="comment">/**
    * Hosts for remote ElasticSearch instances.
@@ -1584,6 +1585,31 @@ ext[<span class="string"><span class="delimiter">'</span><span class="content">e
   client.hosts = [
           [<span class="key">host</span>: <span class="string"><span class="delimiter">'</span><span class="content">localhost</span><span class="delimiter">'</span></span>, <span class="key">port</span>: <span class="integer">9200</span>]
   ]
+
+  <span class="comment">/**
+   * Whether to enable SSL for the ElasticSearch client.
+   */</span>
+  client.ssl.enabled = <span class="predefined-constant">false</span>
+
+  <span class="comment">/**
+   * The strategy for validating SSL connections.
+   *
+   * Possible values:
+   *   - &quot;all&quot;: trust all certificates; least secure, only use for development
+   *   - &quot;self-signed&quot;: trust self-signed certificates; use in trusted environments like a properly secured docker-stack
+   *   - &quot;trust-store&quot;: use a given trust store; requires trust-store file and credentials
+   */</span>
+  client.ssl.trust = <span class="string"><span class="delimiter">'</span><span class="content">all</span><span class="delimiter">'</span></span>
+
+  <span class="comment">/**
+   * If &lt;code&gt;client.ssl.trust&lt;/code&gt; is set to &quot;trust-store&quot;, you need to provide the path to the trust store file here.
+   */</span>
+  client.ssl.truststore.file = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>
+
+  <span class="comment">/**
+   * If &lt;code&gt;client.ssl.trust&lt;/code&gt; is set to &quot;trust-store&quot;, you need to provide the credentials for the trust store file here.
+   */</span>
+  client.ssl.truststore.password = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>
 
   <span class="comment">/**
    * Default mapping property exclusions
@@ -1646,8 +1672,15 @@ environments {
 <pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">elasticSearch</span>:
     <span class="key">date</span>:
         <span class="key">formats</span>: <span class="string"><span class="content">[&quot;yyyy-MM-dd'T'HH:mm:ss.SSS'Z'&quot;]</span></span>
-    <span class="key">client.hosts</span>:
-        - <span class="string"><span class="content">{host: localhost, port: 9200}</span></span>
+    <span class="key">client</span>:
+        <span class="key">hosts</span>:
+            - <span class="string"><span class="content">{host: localhost, port: 9200}</span></span>
+        <span class="comment"># For xpack.security enabled Elasticsearch instances</span>
+        <span class="key">ssl</span>:
+            <span class="key">enabled</span>: <span class="string"><span class="content">true</span></span>
+            <span class="key">trust</span>: <span class="string"><span class="content">'self-signed'</span></span>
+        <span class="key">username</span>: <span class="string"><span class="content">'elastic'</span></span>
+        <span class="key">password</span>: <span class="string"><span class="content">'changeme'</span></span>
     <span class="key">defaultExcludedProperties</span>: <span class="string"><span class="content">['password']</span></span>
     <span class="key">disableAutoIndex</span>: <span class="string"><span class="content">false</span></span>
     <span class="key">index</span>:
@@ -1751,7 +1784,7 @@ The mode is defined with the following config key:</p>
 <p>The Mapper Attachment plugin is Deprecated since version 5.0.0 and will be replaced by <a href="https://www.elastic.co/guide/en/elasticsearch/plugins/5.0/ingest-attachment.html">ingest-attachment</a> plugin.</p>
 </div>
 <div class="paragraph">
-<p>So, if you are using ES plugin with mode: <code>local</code> and do not want to use Mapper Attachment plugin then you can disable the plugin by using following configuration:</p>
+<p>So, if you are using ES plugin with mode: <code>local</code> and do not want to use Mapper Attachment plugin then you can disable the plugin by using the following configuration:</p>
 </div>
 <div class="listingblock">
 <div class="title">application.yml</div>
@@ -1779,6 +1812,97 @@ The mode is defined with the following config key:</p>
 </div>
 </div>
 <div class="sect2">
+<h3 id="security-and-ssl"><a class="anchor" href="#security-and-ssl"></a>Security and SSL</h3>
+<div class="paragraph">
+<p>If your Elasticsearch cluster is secured, using XPack security for example, you can configure the plugin to use authentication and SSL.</p>
+</div>
+<div class="sect3">
+<h4 id="authentication"><a class="anchor" href="#authentication"></a>Authentication</h4>
+<div class="paragraph">
+<p>To use authentication in the client, you have to set username and password:</p>
+</div>
+<div class="listingblock">
+<div class="title">application.yml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">elasticSearch</span>:
+  <span class="key">client</span>:
+    <span class="key">username</span>: <span class="string"><span class="content">elastic</span></span>
+    <span class="key">password</span>: <span class="string"><span class="content">changeme</span></span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="ssl-configuration"><a class="anchor" href="#ssl-configuration"></a>SSL Configuration</h4>
+<div class="paragraph">
+<p>To enable SSL and configure the trust strategy, use the following configuration:</p>
+</div>
+<div class="listingblock">
+<div class="title">application.yml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">elasticSearch</span>:
+  <span class="key">client</span>:
+    <span class="key">ssl</span>:
+      <span class="key">enabled</span>: <span class="string"><span class="content">true</span></span>
+      <span class="key">trust</span>: <span class="string"><span class="content">self-signed</span></span> <span class="comment"># 'all', 'self-signed', or 'trust-store'</span></code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. SSL Trust Strategies</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>all</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Trust all certificates. This is the least secure and should only be used for development.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>self-signed</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Trust self-signed certificates. This is useful for environments with limited access like a properly secured Docker stack.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>trust-store</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use a specific trust store. This requires additional configuration for the trust store file and password. Use this for Elasticsearch clusters used by many applications and accessible by more than just your Grails app.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect4">
+<h5 id="using-a-trust-store"><a class="anchor" href="#using-a-trust-store"></a>Using a Trust Store</h5>
+<div class="paragraph">
+<p>If you use the <code>trust-store</code> trust-strategy, you must provide the path to the trust store file and its password:</p>
+</div>
+<div class="listingblock">
+<div class="title">application.yml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">elasticSearch</span>:
+  <span class="key">client</span>:
+    <span class="key">ssl</span>:
+      <span class="key">enabled</span>: <span class="string"><span class="content">true</span></span>
+      <span class="key">trust</span>: <span class="string"><span class="content">trust-store</span></span>
+      <span class="key">truststore</span>:
+        <span class="key">file</span>: <span class="string"><span class="content">/path/to/elasticsearch-truststore.jks</span></span>
+        <span class="key">password</span>: <span class="string"><span class="content">super_secure</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To create a trust store from an Elasticsearch CA certificate, you can use the <code>keytool</code> command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">keytool -importcert -alias elasticsearch-ca -file ca.crt -keystore elasticsearch-truststore.jks -storetype JKS -storepass super_secure</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="mapping-migration-properties"><a class="anchor" href="#mapping-migration-properties"></a>Mapping Migration properties</h3>
 <div class="paragraph">
 <p>Define the application&#8217;s behaviour when a conflict is found while installing Elasticsearch mappings on startup. For a detailed explanation, see <a href="#mappingMigrations">Mapping Migrations</a>.</p>
@@ -1789,7 +1913,7 @@ The mode is defined with the following config key:</p>
 <p>Defines the behaviour to follow if an error occurs on startup when the application is installing new mappings on ElasticSearch due to conflicting mappings.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Possible Values for migration strategy</caption>
+<caption class="title">Table 2. Possible Values for migration strategy</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1836,7 +1960,7 @@ The mode is defined with the following config key:</p>
 <p>Deals with a special conflict case using the <code>'alias'</code> strategy. When the <code>'alias'</code> migration strategy is chosen and there&#8217;s a mapping conflict on an index, defines whether to replace the index with a versioned index (<code>&lt;indexName&gt;_vX</code>) and an alias (<code>&lt;indexName&gt;</code>). This is required when applying the alias strategy on top of existing indices for the first time as indices cannot be renamed (from <code>&lt;indexName&gt;</code> to <code>&lt;indexName&gt;_vX</code>) and an alias cannot exist with the same name as an index.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. Possible Values for aliasReplacesIndex</caption>
+<caption class="title">Table 3. Possible Values for aliasReplacesIndex</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1879,7 +2003,7 @@ The mode is defined with the following config key:</p>
 <p>In some cases the developer may prefer not to upgrade the alias to the new version of the index until some other tasks are performed. This allows them to disable automatically pointing the alias to a new version of the index when this is created. Aliases can be changed later on manually or programatically using <code>elasticSearchAdminService</code></p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. Possible Values for disableAliasChange</caption>
+<caption class="title">Table 4. Possible Values for disableAliasChange</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1992,7 +2116,7 @@ This property specifies which GORM datastore implementation should be watched fo
 The value should be the name of the datastore bean as it is configured in the Spring context; some possible values:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. Possible Values for datastoreImpl</caption>
+<caption class="title">Table 5. Possible Values for datastoreImpl</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2069,7 +2193,7 @@ Default to <code>false</code>.</p>
 <p>Determines whether the application should launch a bulk index operation upon startup.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. Possible Values for bulkIndexOnStartup</caption>
+<caption class="title">Table 6. Possible Values for bulkIndexOnStartup</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2143,7 +2267,7 @@ Default to <code>false</code>.</p>
 More details on the possible values on the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.17/index-modules-store.html">ElasticSearch Documentation</a>.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. Possible value for index store type</caption>
+<caption class="title">Table 7. Possible value for index store type</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -4183,7 +4307,7 @@ We can also search on the Tweet domain object for tweets with certain tags or fr
 <div id="footer">
 <div id="footer-text">
 Version 5.0.1-SNAPSHOT<br>
-Last updated 2026-06-16 11:29:13 UTC
+Last updated 2026-06-19 06:30:24 UTC
 </div>
 </div>
 </body>
