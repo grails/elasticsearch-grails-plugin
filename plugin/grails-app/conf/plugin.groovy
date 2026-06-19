@@ -14,6 +14,33 @@ elasticSearch {
     ]
 
     /**
+     * Whether to enable SSL for the ElasticSearch client.
+     */
+    client.ssl.enabled = false
+
+    /**
+     * The strategy for validating SSL connections.
+     *
+     * Possible values:
+     *   - "all": trust all certificates; least secure, only use for development
+     *   - "self-signed": trust self-signed certificates; use in trusted environments like a properly secured docker-stack
+     *   - "trust-store": use a given trust store; requires trust-store file and credentials
+     */
+    client.ssl.trust = all
+
+    /**
+     * If <code>client.ssl.trust</code> is set to "trust-store", you need to provide the path to the trust store file here.
+     */
+    client.ssl.truststore.file = ''
+
+    /**
+     * If <code>client.ssl.trust</code> is set to "trust-store", you need to provide the credentials for the trust store file here.
+     */
+    client.ssl.truststore.password = ''
+
+    client
+
+    /**
      * Default mapping property exclusions
      *
      * No properties matching the given names will be mapped by default

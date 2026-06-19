@@ -24,7 +24,7 @@ elasticSearch {
   /**
    * Date formats used by the unmarshaller of the JSON responses
    */
-  date.formats = ["yyyy-MM-dd'T'HH:mm:ss'Z'"]
+  date.formats = ["yyyy-MM-dd'T'HH:mm:ss.S'Z'"]
 
   /**
    * Hosts for remote ElasticSearch instances.
@@ -34,6 +34,31 @@ elasticSearch {
   client.hosts = [
           [host: 'localhost', port: 9200]
   ]
+
+  /**
+   * Whether to enable SSL for the ElasticSearch client.
+   */
+  client.ssl.enabled = false
+
+  /**
+   * The strategy for validating SSL connections.
+   *
+   * Possible values:
+   *   - "all": trust all certificates; least secure, only use for development
+   *   - "self-signed": trust self-signed certificates; use in trusted environments like a properly secured docker-stack
+   *   - "trust-store": use a given trust store; requires trust-store file and credentials
+   */
+  client.ssl.trust = 'all'
+
+  /**
+   * If <code>client.ssl.trust</code> is set to "trust-store", you need to provide the path to the trust store file here.
+   */
+  client.ssl.truststore.file = ''
+
+  /**
+   * If <code>client.ssl.trust</code> is set to "trust-store", you need to provide the credentials for the trust store file here.
+   */
+  client.ssl.truststore.password = ''
 
   /**
    * Default mapping property exclusions
@@ -96,8 +121,15 @@ environments {
 elasticSearch:
     date:
         formats: ["yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"]
-    client.hosts:
-        - {host: localhost, port: 9200}
+    client:
+        hosts:
+            - {host: localhost, port: 9200}
+        # For xpack.security enabled Elasticsearch instances
+        ssl:
+            enabled: true
+            trust: 'self-signed'
+        username: 'elastic'
+        password: 'changeme'
     defaultExcludedProperties: ['password']
     disableAutoIndex: false
     index:
@@ -191,7 +223,7 @@ If no host is defined, `localhost:9200` will be used by the transport client.
 
 The Mapper Attachment plugin is Deprecated since version 5.0.0 and will be replaced by https://www.elastic.co/guide/en/elasticsearch/plugins/5.0/ingest-attachment.html[ingest-attachment] plugin.
 
-So, if you are using ES plugin with mode: `local` and do not want to use Mapper Attachment plugin then you can disable the plugin by using following configuration:
+So, if you are using ES plugin with mode: `local` and do not want to use Mapper Attachment plugin then you can disable the plugin by using the following configuration:
 
 [source, yaml]
 .application.yml
@@ -206,6 +238,77 @@ elasticSearch:
 ====
 Please note that by default the plugin is enabled.
 ====
+
+
+=== Security and SSL
+
+If your Elasticsearch cluster is secured, using XPack security for example, you can configure the plugin to use authentication and SSL.
+
+==== Authentication
+
+To use authentication in the client, you have to set username and password:
+
+[source, yaml]
+.application.yml
+----
+elasticSearch:
+  client:
+    username: elastic
+    password: changeme
+----
+
+==== SSL Configuration
+
+To enable SSL and configure the trust strategy, use the following configuration:
+
+[source, yaml]
+.application.yml
+----
+elasticSearch:
+  client:
+    ssl:
+      enabled: true
+      trust: self-signed # 'all', 'self-signed', or 'trust-store'
+----
+
+.SSL Trust Strategies
+[width="100%",cols="2",options="header"]
+|===
+|Value |Description
+
+| `all`
+| Trust all certificates. This is the least secure and should only be used for development.
+
+| `self-signed`
+| Trust self-signed certificates. This is useful for environments with limited access like a properly secured Docker stack.
+
+| `trust-store`
+| Use a specific trust store. This requires additional configuration for the trust store file and password. Use this for Elasticsearch clusters used by many applications and accessible by more than just your Grails app.
+|===
+
+===== Using a Trust Store
+
+If you use the `trust-store` trust-strategy, you must provide the path to the trust store file and its password:
+
+[source, yaml]
+.application.yml
+----
+elasticSearch:
+  client:
+    ssl:
+      enabled: true
+      trust: trust-store
+      truststore:
+        file: /path/to/elasticsearch-truststore.jks
+        password: super_secure
+----
+
+To create a trust store from an Elasticsearch CA certificate, you can use the `keytool` command:
+
+[source, bash]
+----
+keytool -importcert -alias elasticsearch-ca -file ca.crt -keystore elasticsearch-truststore.jks -storetype JKS -storepass super_secure
+----
 
 
 === Mapping Migration properties
